@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<Pane fx:id="gamePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" translateZ="-1.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.mcatan.lostoncrampteus.Controller.Controleur">
+   <children>
+      <TilePane fx:id="tilePane" />
+      <Rectangle fx:id="playerVue" arcHeight="5.0" arcWidth="5.0" fill="#25ff1f" height="30.0" stroke="BLACK" strokeType="INSIDE" width="30.0" x="500.0" y="159.0" />
+      <TilePane fx:id="inventaire" layoutX="23.0" layoutY="21.0" prefHeight="32.0" prefWidth="320.0">
+         <children>
+            <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </TilePane>
+      <ProgressBar fx:id="vie" layoutX="386.0" layoutY="11.0" prefHeight="32.0" prefWidth="320.0" style="-fx-border-color: BLACK; -fx-border-radius: 5; -fx-background-insets: 0; -fx-accent: LIMEGREEN;" />
+      <Label fx:id="nbStackItem" layoutX="23.0" layoutY="53.0" prefHeight="32.0" prefWidth="45.0" text="Label" />
+      <SplitMenuButton fx:id="craft" layoutX="103.0" layoutY="56.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0" text="Craft">
+      </SplitMenuButton>
+   </children>
+</Pane>
