@@ -1,15 +1,9 @@
 package universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Arme;
 
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Hitbox;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
-
 public class Arc extends Arme {
 
-    private Monde monde;
-
-    public Arc(Monde monde){
+    public Arc(){
         super("arc", 50, 100);
-        this.monde =monde;
     }
 
     public Arc(int degats, int durabilite) {

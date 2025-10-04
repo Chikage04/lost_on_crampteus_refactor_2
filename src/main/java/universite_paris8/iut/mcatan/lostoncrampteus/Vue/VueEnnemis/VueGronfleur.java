@@ -17,7 +17,7 @@ public class VueGronfleur {
     }
 
     public void ajouterGronfleur(){
-        Gronfleur gronfleur = new Gronfleur(monde);
+        Gronfleur gronfleur = new Gronfleur();
         Rectangle gronfleurVue = new Rectangle(30, 30, Paint.valueOf("purple"));
 
         gamePane.getChildren().add(gronfleurVue);

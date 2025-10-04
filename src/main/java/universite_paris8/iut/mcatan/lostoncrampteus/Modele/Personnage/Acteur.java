@@ -19,9 +19,7 @@ public abstract class Acteur {
     private double width;
     private double height;
 
-    protected Monde monde;
-
-    public Acteur(double pv, Monde monde) {
+    public Acteur(double pv) {
         this.pv = new SimpleDoubleProperty(1);
         this.id = Terrain.compteur++;
 
@@ -33,8 +31,6 @@ public abstract class Acteur {
         this.height = 30;
 
         this.hitbox = new Hitbox(getPosX(), getPosY(), width, height);
-
-        this.monde = monde;
     }
 
     public int getId(){
@@ -106,7 +102,7 @@ public abstract class Acteur {
     }
 
     public Monde getMonde() {
-        return monde;
+        return Monde.getInstance();
     }
 
     public void setHeight(double height) {
@@ -132,7 +128,7 @@ public abstract class Acteur {
         velocityY += Monde.GRAVITY;
 
         Hitbox testY = new Hitbox(getPosX(), nextY, getWidth(), getHeight());
-        if (!monde.getTerrain().checkCollision(testY)) {
+        if (!getMonde().getTerrain().checkCollision(testY)) {
             setPosY(nextY);
         } else {
             if (velocityY > 0) {

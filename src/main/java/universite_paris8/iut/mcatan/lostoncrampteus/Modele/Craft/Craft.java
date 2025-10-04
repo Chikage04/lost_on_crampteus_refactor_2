@@ -13,16 +13,14 @@ import java.util.Map;
 
 public class Craft {
     private Map<String, Recette> recettesMap;
-    private Monde monde;
 
-    public Craft(Monde monde) {
-        this.monde = monde;
+    public Craft() {
         this.recettesMap = new HashMap<>();
         initialiserRecettesDeBase();
     }
 
     private void initialiserRecettesDeBase() {
-        Recette epeeSimple = new Recette(new Epee(monde));
+        Recette epeeSimple = new Recette(new Epee());
         epeeSimple.ajouterIngredient("fer", 3);
             epeeSimple.ajouterIngredient("aluminium", 4);
         ajouterRecette("épée", epeeSimple);

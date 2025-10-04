@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Terrain {
 
+    private static Terrain uniqueInstance=null;
     private int[][] map;
     private double scale;
     private double tileSize;
@@ -11,7 +12,7 @@ public class Terrain {
     public int [] tuillesSolide;
     private ArrayList<Hitbox> collisionTiles;
 
-    public Terrain (){
+    private Terrain (){
         this.map = null;
         this.scale = 1;
         this.tileSize = 32 * scale;
@@ -19,6 +20,13 @@ public class Terrain {
         this.collisionTiles = new ArrayList<>();
         initialiserMap();
         initialiserCollisions();
+    }
+
+    public static Terrain getInstance(){
+        if(uniqueInstance==null){
+            uniqueInstance = new Terrain();
+        }
+        return uniqueInstance;
     }
 
     public void initialiserCollisions() {

@@ -1,25 +1,24 @@
 package universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage;
 
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.AlgoRecherche;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
 
 public class Gronfleur extends Ennemis {
 
-    public Gronfleur(Monde monde) {
-        super(100, monde);
+    public Gronfleur() {
+        super(100);
     }
 
     @Override
     public void seDeplacer() {
         if (estVivant()) {
-            AlgoRecherche.DeplacementTerrestre(this, monde, 1.5, 200);
+            AlgoRecherche.DeplacementTerrestre(this, super.getMonde(), 1.5, 200);
             attaquer();
         }
     }
 
     @Override
     public void attaquer() {
-        if (monde.getJoueur().getHitbox().colision(this.getHitbox()))
-            monde.getJoueur().perdreVie(0.003);
+        if (super.getMonde().getJoueur().getHitbox().colision(this.getHitbox()))
+            super.getMonde().getJoueur().perdreVie(0.003);
     }
 }

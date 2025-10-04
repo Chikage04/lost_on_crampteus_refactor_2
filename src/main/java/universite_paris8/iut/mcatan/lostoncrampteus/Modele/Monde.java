@@ -3,15 +3,11 @@ package universite_paris8.iut.mcatan.lostoncrampteus.Modele;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.input.KeyCode;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Arme.Arc;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Arme.Epee;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Arme.Pioche;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc.Aluminium;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc.Dirt;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc.Fer;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc.Grass;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Consomable.Pomme;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Consomable.PotionPv;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Item;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.ItemAuSol;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Acteur;
@@ -24,25 +20,29 @@ import java.util.HashSet;
 
 public class Monde {
 
+    private static Monde uniqueInstance=null;
     private Terrain terrain;
     private Joueur joueur;
     public final static double GRAVITY = 0.9;
     private ArrayList<Pnj> pnjs;
     private ObservableList<ItemAuSol> itemsAuSol;
 
-    public Monde(Terrain terrain, Joueur joueur){
-        this.terrain = terrain;
-        this.joueur = joueur;
+    private Monde(){
         this.pnjs = new ArrayList<>();
-        this.itemsAuSol = FXCollections.observableArrayList();
-    }
-
-    public Monde(){
-        this.pnjs = new ArrayList<>();
-        this.terrain = new Terrain();
-        this.joueur = new Joueur(100, this);
+        this.terrain = Terrain.getInstance();
         this.itemsAuSol = FXCollections.observableArrayList();
         initItemAuSol();
+    }
+
+    public static Monde getInstance(){
+        if(uniqueInstance==null){
+            uniqueInstance = new Monde();
+        }
+        return uniqueInstance;
+    }
+
+    public void setJoueur(Joueur joueur){
+        this.joueur = joueur;
     }
 
     private void initItemAuSol(){
@@ -58,8 +58,8 @@ public class Monde {
             ajouterItemAuSol(new Fer(), 20*32, 19*32);
         }
 
-        ajouterItemAuSol(new Pioche(this), 0 , 0);
-        ajouterItemAuSol(new Epee(this), 0, 0);
+        ajouterItemAuSol(new Pioche(), 0 , 0);
+        ajouterItemAuSol(new Epee(), 0, 0);
     }
 
     public void updateMonde(HashSet<KeyCode> activeKeys) {

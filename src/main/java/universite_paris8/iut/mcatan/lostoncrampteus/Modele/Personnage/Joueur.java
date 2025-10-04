@@ -20,6 +20,7 @@ import java.util.Map;
 
 public class Joueur extends Acteur {
 
+    private static Joueur uniqueInstance=null;
     private Item itemEquipee;
     private Armure armureEquipee;
     private Inventaire inventaire;
@@ -27,17 +28,26 @@ public class Joueur extends Acteur {
     private ArrayList<Bloc> blocEnCoursCassage;
     private Map<String, Recette> recetteDisponible;
 
-    public Joueur(int pv, Monde monde) {
-        super(pv, monde);
+    private Joueur() {
+        super(100);
         setHeight(60);
         setWidth(28);
         this.itemEquipee = null;
         this.armureEquipee = null;
         this.inventaire = new Inventaire(10, this);
-        this.systemeDeCraft = new Craft(monde);
+        this.systemeDeCraft = new Craft();
         this.blocEnCoursCassage = new ArrayList<>();
         this.recetteDisponible = new HashMap<>();
     }
+
+
+    public static Joueur getInstance() {
+        if (uniqueInstance == null) {
+            uniqueInstance = new Joueur();
+        }
+        return uniqueInstance;
+    }
+
 
     public void updatePosition(Terrain terrain, HashSet<KeyCode> activeKeys) {
         if (estVivant()) {
@@ -76,7 +86,7 @@ public class Joueur extends Acteur {
         Hitbox hitboxJoueur = getHitbox();
         ArrayList<ItemAuSol> itemsARamasser = new ArrayList<>();
 
-        for (ItemAuSol item : monde.getItemsAuSol()) {
+        for (ItemAuSol item : super.getMonde().getItemsAuSol()) {
             Hitbox hitboxItem = new Hitbox(item.getPosX(), item.getPosY(), 32, 32);
             if (hitboxJoueur.colision(hitboxItem)) {
                 itemsARamasser.add(item);
@@ -86,12 +96,12 @@ public class Joueur extends Acteur {
         for (ItemAuSol item : itemsARamasser) {
             if (!inventaire.estPlein()) {
                 ajoutInventaire(item.getItem());
-                monde.enleverItemAuSol(item);
+                super.getMonde().enleverItemAuSol(item);
                 miseAjourRecettesDisponibles();
             }
             else if (inventaire.estPlein() && item.getItem().peutEtreStacke()) {
                 ajoutInventaire(item.getItem());
-                monde.enleverItemAuSol(item);
+                super.getMonde().enleverItemAuSol(item);
                 miseAjourRecettesDisponibles();
             }
         }
@@ -104,7 +114,7 @@ public class Joueur extends Acteur {
                 inventaire.ajouterItem(resultat);
             }
             else {
-                monde.ajouterItemAuSol(resultat, getPosX()-32, getPosY());//si inventaire est plein on met l'item au sol
+                super.getMonde().ajouterItemAuSol(resultat, getPosX()-32, getPosY());//si inventaire est plein on met l'item au sol
             }
             miseAjourRecettesDisponibles();
             return true;
@@ -164,7 +174,7 @@ public class Joueur extends Acteur {
                     terrain.getMap()[y][x] = 0;
                     blocEnCoursCassage.remove(i);
                     terrain.mettreAJourCollisionTuile(x, y);
-                    monde.ajouterItemAuSol(bloc,x*32,y*32);
+                    super.getMonde().ajouterItemAuSol(bloc,x*32,y*32);
                 }
             }
             i--;

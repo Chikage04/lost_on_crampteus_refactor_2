@@ -15,6 +15,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.TilePane;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Joueur;
 import universite_paris8.iut.mcatan.lostoncrampteus.Vue.*;
 import universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueEnnemis.VueGronfleur;
 import universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueUI.VueCraft;
@@ -81,7 +82,8 @@ public class Controleur implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        monde = new Monde();
+        monde = Monde.getInstance();
+        monde.setJoueur(Joueur.getInstance());
 
         vueItemAuSol = new VueItemAuSol(gamePane, monde); // faire attention a l'ordre
         vueJoueur = new VueJoueur(monde, playerVue);

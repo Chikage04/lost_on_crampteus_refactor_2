@@ -13,8 +13,8 @@ import java.util.HashSet;
 public class AlgoRechercheTest {
 
     private Monde genererMondePourTest() {
-        Monde monde = new Monde();
-        monde.ajouterPnj(new Gronfleur(monde));
+        Monde monde = Monde.getInstance();
+        monde.ajouterPnj(new Gronfleur());
 
         return monde;
     }
@@ -65,7 +65,7 @@ public class AlgoRechercheTest {
 
         Joueur joueur = monde.getJoueur();
         for (int i = 0; i <= 1; i++) {
-            monde.ajouterPnj(new Gronfleur(monde));
+            monde.ajouterPnj(new Gronfleur());
         }
 
         Gronfleur gronfleurG = (Gronfleur) monde.getPnjs().get(0);
