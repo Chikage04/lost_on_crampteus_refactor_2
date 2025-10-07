@@ -6,6 +6,8 @@ import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.*;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Arme.Epee;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Consomable.PotionPv;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Craft.Template.CraftTemplate;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Craft.Template.CraftStandard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,10 +16,12 @@ import java.util.Map;
 public class Craft {
     private Map<String, Recette> recettesMap;
     private Monde monde;
+    private CraftTemplate craftTemplate;
 
     public Craft(Monde monde) {
         this.monde = monde;
         this.recettesMap = new HashMap<>();
+        this.craftTemplate = new CraftStandard();
         initialiserRecettesDeBase();
     }
 
@@ -42,18 +46,14 @@ public class Craft {
 
     public Item craft(String nomItem, Inventaire inventaire) {
         Recette recette = recettesMap.get(nomItem);
-        if (recette == null || !recette.peutEtreCraft(inventaire)) {
+        if (recette == null) {
             return null;
         }
-
-        for (Map.Entry<String, Integer> entry : recette.getIngredients().entrySet()) {
-            retirerIngredients(inventaire, entry.getKey(), entry.getValue());
-        }
-
-        return recette.getResultat();
+        return craftTemplate.executerCraft(recette, inventaire);
     }
 
     private void retirerIngredients(Inventaire inventaire, String nomItem, int quantite) {
+        // This method is now handled by the template, kept for potential future use
         int resteARetirer = quantite;
         ArrayList<Item> itemsAretirer = new ArrayList<>();
 
