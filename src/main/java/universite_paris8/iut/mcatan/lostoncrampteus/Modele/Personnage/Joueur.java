@@ -8,6 +8,7 @@ import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Armure;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Hitbox;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Inventaire;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc.*;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Factory.BlocFactory;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Item;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.ItemAuSol;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
@@ -37,6 +38,7 @@ public class Joueur extends Acteur {
         this.systemeDeCraft = new Craft(monde);
         this.blocEnCoursCassage = new ArrayList<>();
         this.recetteDisponible = new HashMap<>();
+        this.blocFactory = new BlocFactory();
     }
 
     public void updatePosition(Terrain terrain, HashSet<KeyCode> activeKeys) {
@@ -173,33 +175,34 @@ public class Joueur extends Acteur {
         if (!blocExistantTrouve) ajouterBlocEnCourCassage(terrain, x, y);
     }
 
+    private BlocFactory blocFactory;
+
     private void ajouterBlocEnCourCassage(Terrain terrain, int x, int y){
         int tileType = terrain.getMap()[y][x];
-        Bloc nouveauBloc = null;
+        String blocType = getBlocTypeFromTileType(tileType);
 
-        switch (tileType) {
-            case 1:
-                nouveauBloc = new Grass();break;
-            case 2:
-                nouveauBloc = new Dirt();break;
-            case 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28:
-                nouveauBloc = new Bois(); break;
-            case 29:
-                nouveauBloc = new Aluminium(); break;
-            case 30:
-                nouveauBloc = new Cramptenium();break;
-            case 31:
-                nouveauBloc = new Cuivre();break;
-            case 32:
-                nouveauBloc = new Fer();break;
-            case 33:
-                nouveauBloc = new Pierre();break;
+        if (blocType != null) {
+            Bloc nouveauBloc = (Bloc) blocFactory.createItem(blocType, monde);
+            if (nouveauBloc != null) {
+                nouveauBloc.setPosition(x, y);
+                blocEnCoursCassage.add(nouveauBloc);
+            }
         }
+    }
 
-        if (nouveauBloc != null) {
-            nouveauBloc.setPosition(x, y);
-            blocEnCoursCassage.add(nouveauBloc);
-        }
+    private String getBlocTypeFromTileType(int tileType) {
+        return switch (tileType) {
+            case 1 -> "grass";
+            case 2 -> "dirt";
+            case 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 -> "bois";
+            case 29 -> "aluminium";
+            case 30 -> "cramptenium";
+            case 31 -> "cuivre";
+            case 32 -> "fer";
+            case 33 -> "pierre";
+            case 34 -> "Gintoki";
+            default -> null;
+        };
     }
 
     public void placerTile(Terrain terrain, int x, int y, int tile){

@@ -43,7 +43,7 @@ public class VueTerrain {
 
                 tileViews[i][j] = imageView;
 
-                if (tile == 1 || tile == 2 || tile == 15 || tile == 16 || tile == 29 || tile == 30 || tile == 31 || tile == 32 || tile == 33) {
+                if (tile == 1 || tile == 2 || tile == 15 || tile == 16 || tile == 29 || tile == 30 || tile == 31 || tile == 32 || tile == 33 || tile == 34) {
                     tuilesSolideVue.add(imageView);
                 }
 
@@ -88,7 +88,7 @@ public class VueTerrain {
         images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Items/Ressources/cuivre.png")));    // 31
         images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Items/Ressources/fer.png")));    // 32
         images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Items/Ressources/pierre.png")));    // 33
-
+        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/gintoki.png")));    // 34
 
         return images;
     }

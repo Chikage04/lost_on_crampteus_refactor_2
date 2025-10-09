@@ -58,12 +58,9 @@ public class Camera {
         double maxOffsetX = monde.getTerrain().getMapWidth() - viewportWidth;
         double maxOffsetY = monde.getTerrain().getMapHeight() - viewportHeight;
 
-        if (offsetX < 0) offsetX = 0;
-        else if (offsetX > maxOffsetX) offsetX = maxOffsetX;
-
-        if (offsetY < 0) offsetY = 0;
-        else if (offsetY > maxOffsetY) offsetY = maxOffsetY;
-
+        offsetX = Math.max(0, Math.min(offsetX, maxOffsetX));
+        offsetY = Math.max(0, Math.min(offsetY, maxOffsetY));
+        
 
         gamePane.setTranslateX(-offsetX);
         gamePane.setTranslateY(-offsetY);
