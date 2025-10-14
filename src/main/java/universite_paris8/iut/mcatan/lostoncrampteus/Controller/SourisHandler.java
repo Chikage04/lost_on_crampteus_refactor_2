@@ -20,10 +20,9 @@ public class SourisHandler {
     private final double RAYON_PROXIMITE = 32.0;
 
 
-    public SourisHandler(Pane gamePane, Monde monde, VueTerrain vueTerrain) {
-        this.monde = monde;
+    public SourisHandler(Pane gamePane, VueTerrain vueTerrain) {
         this.vueTerrain = vueTerrain;
-
+        this.monde = Monde.getInstance();
         // Rectangle de survol
         tuileSurvolee = new Rectangle(TILE_SIZE, TILE_SIZE);
         tuileSurvolee.setFill(Color.TRANSPARENT);

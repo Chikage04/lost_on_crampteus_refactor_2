@@ -102,7 +102,7 @@ public class Controleur implements Initializable {
         }
 
         setupAnimation();
-        sourisHandler = new SourisHandler(gamePane, monde, vueTerrain);
+        sourisHandler = new SourisHandler(gamePane, vueTerrain);
 
 
     }

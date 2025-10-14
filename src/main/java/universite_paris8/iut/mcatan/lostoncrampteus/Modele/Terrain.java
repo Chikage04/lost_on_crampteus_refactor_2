@@ -20,12 +20,14 @@ public class Terrain {
         this.collisionTiles = new ArrayList<>();
         initialiserMap();
         initialiserCollisions();
+        System.out.println("Nouveau terrain créé " + this);
     }
 
     public static Terrain getInstance(){
         if(uniqueInstance==null){
             uniqueInstance = new Terrain();
         }
+        System.out.println("Instance retournée " + uniqueInstance);
         return uniqueInstance;
     }
 

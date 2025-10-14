@@ -109,8 +109,4 @@ public class VueTerrain {
         }
     }
 
-
-    public Terrain getTerrain() {
-        return terrain;
-    }
 }

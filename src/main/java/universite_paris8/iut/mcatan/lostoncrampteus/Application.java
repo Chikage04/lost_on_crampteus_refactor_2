@@ -24,8 +24,6 @@ public class Application extends javafx.application.Application {
 
         Controleur controleur = fxmlLoader.getController();
 
-        Terrain terrain = controleur.getVueTerrain().getTerrain();
-
         stage.setTitle("Lost On Crampteus");
         stage.setScene(scene);
         stage.setResizable(false);

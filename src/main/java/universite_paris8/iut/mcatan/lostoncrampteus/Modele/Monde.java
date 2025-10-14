@@ -21,7 +21,6 @@ import java.util.HashSet;
 public class Monde {
 
     private static Monde uniqueInstance=null;
-    private Terrain terrain;
     private Joueur joueur;
     public final static double GRAVITY = 0.9;
     private ArrayList<Pnj> pnjs;
@@ -29,15 +28,16 @@ public class Monde {
 
     private Monde(){
         this.pnjs = new ArrayList<>();
-        this.terrain = Terrain.getInstance();
         this.itemsAuSol = FXCollections.observableArrayList();
         initItemAuSol();
+        System.out.println("Nouveau monde de créé " + this);
     }
 
     public static Monde getInstance(){
         if(uniqueInstance==null){
             uniqueInstance = new Monde();
         }
+        System.out.println("Instance retournée " + uniqueInstance);
         return uniqueInstance;
     }
 
@@ -66,7 +66,7 @@ public class Monde {
         appliquerGraviteItem();
         appliquerGraviteActeurs();
         joueur.checkRamassageItems();
-        joueur.updatePosition(terrain, activeKeys);
+        joueur.updatePosition(Terrain.getInstance(), activeKeys);
         for (Pnj acteur : pnjs) {
             acteur.seDeplacer();
         }
@@ -91,7 +91,7 @@ public class Monde {
     }
 
     public Terrain getTerrain() {
-        return terrain;
+        return Terrain.getInstance();
     }
 
     public Joueur getJoueur() {

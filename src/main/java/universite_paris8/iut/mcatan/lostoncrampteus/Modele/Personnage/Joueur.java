@@ -38,6 +38,7 @@ public class Joueur extends Acteur {
         this.systemeDeCraft = new Craft();
         this.blocEnCoursCassage = new ArrayList<>();
         this.recetteDisponible = new HashMap<>();
+        System.out.println("Nouveau joueur créé " + this);
     }
 
 
@@ -45,6 +46,7 @@ public class Joueur extends Acteur {
         if (uniqueInstance == null) {
             uniqueInstance = new Joueur();
         }
+        System.out.println("Joueur retourné " + uniqueInstance);
         return uniqueInstance;
     }
 
