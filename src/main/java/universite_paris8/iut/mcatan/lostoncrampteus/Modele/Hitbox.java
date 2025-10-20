@@ -1,5 +1,7 @@
 package universite_paris8.iut.mcatan.lostoncrampteus.Modele;
 
+import static universite_paris8.iut.mcatan.lostoncrampteus.Controller.Constants.GameConstants.TILE_SIZE;
+
 public class Hitbox {
 
     private double x;
@@ -20,10 +22,10 @@ public class Hitbox {
 
     public boolean couvreTuile(int tuileX, int tuileY){
 
-        double tuilePosX = tuileX * 32;
-        double tuilePosY = tuileY * 32;
+        double tuilePosX = tuileX * TILE_SIZE;
+        double tuilePosY = tuileY * TILE_SIZE;
 
-        return (this.x == tuilePosX && this.y == tuilePosY && this.largeur == 32 && this.hauteur == 32);
+        return (this.x == tuilePosX && this.y == tuilePosY && this.largeur == TILE_SIZE && this.hauteur == TILE_SIZE);
     }
 
     public double getX() {

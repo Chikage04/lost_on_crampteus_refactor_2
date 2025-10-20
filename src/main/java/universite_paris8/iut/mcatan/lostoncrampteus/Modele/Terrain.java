@@ -2,6 +2,8 @@ package universite_paris8.iut.mcatan.lostoncrampteus.Modele;
 
 import java.util.ArrayList;
 
+import static universite_paris8.iut.mcatan.lostoncrampteus.Controller.Constants.GameConstants.*;
+
 public class Terrain {
 
     private int[][] map;
@@ -14,7 +16,7 @@ public class Terrain {
     public Terrain (){
         this.map = null;
         this.scale = 1;
-        this.tileSize = 32 * scale;
+        this.tileSize = TILE_SIZE * scale;
         this.tuillesSolide = new int[]{1,2,15,16,29,30,31,32,33,34};
         this.collisionTiles = new ArrayList<>();
         initialiserMap();
@@ -33,8 +35,8 @@ public class Terrain {
     }
 
     public void mettreAJourCollisionTuile(int x, int y){
-        double posX = x * 32;
-        double posY = y * 32;
+        double posX = x * tileSize;
+        double posY = y * tileSize;
         int i = 0;
         boolean trouvee = false;
 

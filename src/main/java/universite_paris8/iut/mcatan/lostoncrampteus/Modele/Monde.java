@@ -22,6 +22,8 @@ import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Pnj;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import static universite_paris8.iut.mcatan.lostoncrampteus.Controller.Constants.GameConstants.TILE_SIZE;
+
 public class Monde {
 
     private Terrain terrain;
@@ -51,11 +53,11 @@ public class Monde {
         }
 
         // deux en plus pour tester le ramassage
-        ajouterItemAuSol(new Pomme(), 22*32, 19*32);
+        ajouterItemAuSol(new Pomme(), 22*TILE_SIZE, 19*TILE_SIZE);
 
         for (int i =0; i < 4; i++) {
-            ajouterItemAuSol(new Aluminium(), 21*32, 19*32);
-            ajouterItemAuSol(new Fer(), 20*32, 19*32);
+            ajouterItemAuSol(new Aluminium(), 21*TILE_SIZE, 19*TILE_SIZE);
+            ajouterItemAuSol(new Fer(), 20*TILE_SIZE, 19*TILE_SIZE);
         }
 
         ajouterItemAuSol(new Pioche(this), 0 , 0);

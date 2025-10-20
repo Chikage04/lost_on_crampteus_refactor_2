@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import static universite_paris8.iut.mcatan.lostoncrampteus.Controller.Constants.GameConstants.TILE_SIZE;
+
 public class Joueur extends Acteur {
 
     private Item itemEquipee;
@@ -79,7 +81,7 @@ public class Joueur extends Acteur {
         ArrayList<ItemAuSol> itemsARamasser = new ArrayList<>();
 
         for (ItemAuSol item : monde.getItemsAuSol()) {
-            Hitbox hitboxItem = new Hitbox(item.getPosX(), item.getPosY(), 32, 32);
+            Hitbox hitboxItem = new Hitbox(item.getPosX(), item.getPosY(), TILE_SIZE, TILE_SIZE);
             if (hitboxJoueur.colision(hitboxItem)) {
                 itemsARamasser.add(item);
             }
@@ -106,7 +108,7 @@ public class Joueur extends Acteur {
                 inventaire.ajouterItem(resultat);
             }
             else {
-                monde.ajouterItemAuSol(resultat, getPosX()-32, getPosY());//si inventaire est plein on met l'item au sol
+                monde.ajouterItemAuSol(resultat, getPosX()-TILE_SIZE, getPosY());//si inventaire est plein on met l'item au sol
             }
             miseAjourRecettesDisponibles();
             return true;
@@ -166,7 +168,7 @@ public class Joueur extends Acteur {
                     terrain.getMap()[y][x] = 0;
                     blocEnCoursCassage.remove(i);
                     terrain.mettreAJourCollisionTuile(x, y);
-                    monde.ajouterItemAuSol(bloc,x*32,y*32);
+                    monde.ajouterItemAuSol(bloc,x*TILE_SIZE,y*TILE_SIZE);
                 }
             }
             i--;
