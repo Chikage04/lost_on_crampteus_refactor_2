@@ -4,6 +4,11 @@ import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Item;
 
 public class Dirt extends Bloc {
     public Dirt() {
-        super("dirt", 64, 1,80);
+        super("dirt", 64, 1,80, new int[]{2});
+    }
+
+    @Override
+    public int[] getTileId() {
+        return this.id;
     }
 }
