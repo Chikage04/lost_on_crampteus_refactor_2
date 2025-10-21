@@ -5,7 +5,7 @@ import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
 
 public class BlocFactory implements ItemFactory {
     @Override
-    public Item createItem(String type, Monde monde) {
+    public Item createItem(String type) {
         return switch (type.toLowerCase()) {
             case "grass" -> new Grass();
             case "dirt" -> new Dirt();

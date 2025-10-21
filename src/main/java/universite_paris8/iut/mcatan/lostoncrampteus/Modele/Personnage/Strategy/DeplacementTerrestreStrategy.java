@@ -14,8 +14,8 @@ public class DeplacementTerrestreStrategy implements DeplacementStrategy {
     }
 
     @Override
-    public void deplacer(Pnj pnj, Monde monde) {
-        AlgoRecherche.DeplacementTerrestre(pnj, monde, vitesse, portee);
+    public void deplacer(Pnj pnj) {
+        AlgoRecherche.DeplacementTerrestre(pnj, vitesse, portee);
     }
 
 }

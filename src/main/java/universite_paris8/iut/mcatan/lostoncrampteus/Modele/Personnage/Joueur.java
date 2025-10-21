@@ -92,7 +92,7 @@ public class Joueur extends Acteur {
         ArrayList<ItemAuSol> itemsARamasser = new ArrayList<>();
 
         for (ItemAuSol item : super.getMonde().getItemsAuSol()) {
-            Hitbox hitboxItem = new Hitbox(item.getPosX(), item.getPosY(), 32, 32);
+            Hitbox hitboxItem = new Hitbox(item.getPosX(), item.getPosY(), TILE_SIZE, TILE_SIZE);
             if (hitboxJoueur.colision(hitboxItem)) {
                 itemsARamasser.add(item);
             }
@@ -119,7 +119,7 @@ public class Joueur extends Acteur {
                 inventaire.ajouterItem(resultat);
             }
             else {
-                super.getMonde().ajouterItemAuSol(resultat, getPosX()-32, getPosY());//si inventaire est plein on met l'item au sol
+                super.getMonde().ajouterItemAuSol(resultat, getPosX()-TILE_SIZE, getPosY());//si inventaire est plein on met l'item au sol
             }
             miseAjourRecettesDisponibles();
             return true;
@@ -179,7 +179,7 @@ public class Joueur extends Acteur {
                     terrain.getMap()[y][x] = 0;
                     blocEnCoursCassage.remove(i);
                     terrain.mettreAJourCollisionTuile(x, y);
-                    super.getMonde().ajouterItemAuSol(bloc,x*32,y*32);
+                    super.getMonde().ajouterItemAuSol(bloc,x*TILE_SIZE,y*TILE_SIZE);
                 }
             }
             i--;
@@ -195,7 +195,7 @@ public class Joueur extends Acteur {
         String blocType = getBlocTypeFromTileType(tileType);
 
         if (blocType != null) {
-            Bloc nouveauBloc = (Bloc) blocFactory.createItem(blocType, monde);
+            Bloc nouveauBloc = (Bloc) blocFactory.createItem(blocType);
             if (nouveauBloc != null) {
                 nouveauBloc.setPosition(x, y);
                 blocEnCoursCassage.add(nouveauBloc);

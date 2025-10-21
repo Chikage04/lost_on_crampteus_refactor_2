@@ -14,7 +14,7 @@ public class Gronfleur extends Ennemis {
     @Override
     public void seDeplacer() {
         if (estVivant()) {
-            deplacementStrategy.deplacer(this, monde);
+            deplacementStrategy.deplacer(this);
             attaquer();
         }
     }

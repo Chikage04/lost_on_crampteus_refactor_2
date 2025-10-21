@@ -7,9 +7,9 @@ import static universite_paris8.iut.mcatan.lostoncrampteus.Controller.Constants.
 
 public class AlgoRecherche {
 
-    public static void DeplacementTerrestre(Pnj pnj, Monde monde, double vitesse, int range) {
-        Joueur joueur = monde.getJoueur();
-        Terrain terrain = monde.getTerrain();
+    public static void DeplacementTerrestre(Pnj pnj, double vitesse, int range) {
+        Joueur joueur = Joueur.getInstance();
+        Terrain terrain = Terrain.getInstance();
 
         // mouvement horizontal
         int direction;
@@ -46,7 +46,7 @@ public class AlgoRecherche {
         double nextX = pnj.getPosX() + direction * vitesse;
 
         Hitbox testX = new Hitbox(nextX, pnj.getPosY(), pnj.getWidth(), pnj.getHeight());
-        if (!monde.getTerrain().checkCollision(testX)) {
+        if (!terrain.checkCollision(testX)) {
             pnj.setPosX(nextX);
         }
 
