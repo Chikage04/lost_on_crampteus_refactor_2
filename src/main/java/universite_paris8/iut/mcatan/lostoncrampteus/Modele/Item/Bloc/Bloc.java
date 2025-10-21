@@ -54,6 +54,9 @@ public class Bloc extends ItemAvecDurabilite {
             case "pierre":
                 monde.getJoueur().placerTile(monde.getTerrain(), tileX, tileY, 33);
                 break;
+            case "Gintoki":
+                monde.getJoueur().placerTile(monde.getTerrain(), tileX, tileY, 34);
+                break;
         }
     }
 

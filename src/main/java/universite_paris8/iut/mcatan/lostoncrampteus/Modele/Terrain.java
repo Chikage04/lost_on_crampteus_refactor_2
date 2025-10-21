@@ -2,6 +2,8 @@ package universite_paris8.iut.mcatan.lostoncrampteus.Modele;
 
 import java.util.ArrayList;
 
+import static universite_paris8.iut.mcatan.lostoncrampteus.Controller.Constants.GameConstants.*;
+
 public class Terrain {
 
     private static Terrain uniqueInstance=null;
@@ -15,8 +17,8 @@ public class Terrain {
     private Terrain (){
         this.map = null;
         this.scale = 1;
-        this.tileSize = 32 * scale;
-        this.tuillesSolide = new int[]{1,2,15,16,29,30,31,32,33};
+        this.tileSize = TILE_SIZE * scale;
+        this.tuillesSolide = new int[]{1,2,15,16,29,30,31,32,33,34};
         this.collisionTiles = new ArrayList<>();
         initialiserMap();
         initialiserCollisions();
@@ -43,8 +45,8 @@ public class Terrain {
     }
 
     public void mettreAJourCollisionTuile(int x, int y){
-        double posX = x * 32;
-        double posY = y * 32;
+        double posX = x * tileSize;
+        double posY = y * tileSize;
         int i = 0;
         boolean trouvee = false;
 
@@ -101,7 +103,7 @@ public class Terrain {
                 {0, 0, 26, 27, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 7, 8, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                 {0, 0, 23, 24, 25, 0, 0, 3, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                 {0, 0, 20, 21, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0, 0, 17, 18, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0, 0, 17, 18, 19, 0, 0, 34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                 {0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                 {0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -141,14 +143,14 @@ public class Terrain {
         return this.map[0].length * tileSize;
     }
 
-    public void afficherTerrain(){
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[i].length; j++){
-                System.out.print(map[i][j]);
-            }
-            System.out.println();
-        }
-    }
+  // public void afficherTerrain(){
+  //     for (int i = 0; i < map.length; i++) {
+  //         for (int j = 0; j < map[i].length; j++){
+  //             System.out.print(map[i][j]);
+  //         }
+  //         System.out.println();
+  //     }
+  // }
 
 
     public double getScale() {

@@ -3,6 +3,8 @@ package universite_paris8.iut.mcatan.lostoncrampteus.Modele;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Joueur;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Pnj;
 
+import static universite_paris8.iut.mcatan.lostoncrampteus.Controller.Constants.GameConstants.TILE_SIZE;
+
 public class AlgoRecherche {
 
     public static void DeplacementTerrestre(Pnj pnj, Monde monde, double vitesse, int range) {
@@ -29,8 +31,8 @@ public class AlgoRecherche {
         }
 
         // mouvement vertical
-        int pnjCoordonneeX = (int) (pnj.getPosX() / 32);
-        int pnjCoordonneeY = (int) (pnj.getPosY() / 32);
+        int pnjCoordonneeX = (int) (pnj.getPosX() / TILE_SIZE);
+        int pnjCoordonneeY = (int) (pnj.getPosY() / TILE_SIZE);
 
         int adjacentTile = terrain.getMap()[pnjCoordonneeY][pnjCoordonneeX + direction];
         if (adjacentTile == 1 || adjacentTile == 2) {

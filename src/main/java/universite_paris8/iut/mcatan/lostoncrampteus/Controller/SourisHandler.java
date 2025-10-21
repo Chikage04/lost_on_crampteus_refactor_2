@@ -2,7 +2,7 @@ package universite_paris8.iut.mcatan.lostoncrampteus.Controller;
 
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
 import universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueTerrain;
-
+import static universite_paris8.iut.mcatan.lostoncrampteus.Controller.Constants.GameConstants.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
@@ -14,10 +14,6 @@ public class SourisHandler {
     private final Monde monde;
     private final VueTerrain vueTerrain;
     private final Rectangle tuileSurvolee;
-
-    private final double TILE_SIZE = 32;
-    private final double RANGE_MAX = 128.0;
-    private final double RAYON_PROXIMITE = 32.0;
 
 
     public SourisHandler(Pane gamePane, VueTerrain vueTerrain) {
@@ -52,7 +48,7 @@ public class SourisHandler {
 
             double dist = distanceToPlayer(tileX, tileY);
 
-            if (dist <= RANGE_MAX) {
+            if (dist <= PLAYER_INTERACTION_RANGE) {
                 tuileSurvolee.setStroke(Color.GHOSTWHITE);
             }
             else{
@@ -70,7 +66,7 @@ public class SourisHandler {
         if (estDansLesLimites(tileX, tileY) && monde.getJoueur().getItemEquipee() != null) {
             double distance = distanceToPlayer(tileX, tileY);
 
-            if (distance <= RANGE_MAX) {
+            if (distance <= PLAYER_INTERACTION_RANGE) {
                 if (event.getButton() == MouseButton.PRIMARY) {
                     gererClicGauche(tileX, tileY);
                 } else if (event.getButton() == MouseButton.SECONDARY) {
@@ -88,7 +84,7 @@ public class SourisHandler {
     }
 
     private void gererClicDroit(int tileX, int tileY, double distance) {
-        boolean estTropProche = (distance < RAYON_PROXIMITE);
+        boolean estTropProche = (distance < PLAYER_MIN_BUILD_DISTANCE);
         boolean estCaseOccupee = estTuileSolide(tileX, tileY);
 
         if (!estTropProche) {

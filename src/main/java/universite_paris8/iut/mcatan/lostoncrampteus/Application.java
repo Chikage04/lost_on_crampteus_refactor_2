@@ -11,7 +11,6 @@ import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Terrain;
 import universite_paris8.iut.mcatan.lostoncrampteus.Vue.Camera;
 
 public class Application extends javafx.application.Application {
-
     private static final double WINDOW_WIDTH = 800;
     private static final double WINDOW_HEIGHT = 600;
 
