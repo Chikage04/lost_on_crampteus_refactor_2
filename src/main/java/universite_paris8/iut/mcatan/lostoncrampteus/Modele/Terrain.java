@@ -29,7 +29,7 @@ public class Terrain {
         if(uniqueInstance==null){
             uniqueInstance = new Terrain();
         }
-        System.out.println("Instance retournée " + uniqueInstance);
+        //System.out.println("Instance retournée " + uniqueInstance);
         return uniqueInstance;
     }
 

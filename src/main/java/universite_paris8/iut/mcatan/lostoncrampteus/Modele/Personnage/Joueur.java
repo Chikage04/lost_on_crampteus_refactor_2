@@ -49,7 +49,7 @@ public class Joueur extends Acteur {
         if (uniqueInstance == null) {
             uniqueInstance = new Joueur();
         }
-        System.out.println("Joueur retourné " + uniqueInstance);
+        //System.out.println("Joueur retourné " + uniqueInstance);
         return uniqueInstance;
     }
 

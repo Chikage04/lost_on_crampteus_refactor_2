@@ -43,4 +43,8 @@ public class Hitbox {
     public double getHauteur() {
         return hauteur;
     }
+
+    public String toString() {
+        return x + ", " + y + ", " + largeur + ", " + hauteur;
+    }
 }

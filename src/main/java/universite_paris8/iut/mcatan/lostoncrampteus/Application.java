@@ -1,4 +1,3 @@
-
 package universite_paris8.iut.mcatan.lostoncrampteus;
 
 import javafx.fxml.FXMLLoader;
@@ -7,7 +6,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import universite_paris8.iut.mcatan.lostoncrampteus.Controller.Controleur;
 import universite_paris8.iut.mcatan.lostoncrampteus.Controller.KeyEventHandler;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Terrain;
 import universite_paris8.iut.mcatan.lostoncrampteus.Vue.Camera;
 
 public class Application extends javafx.application.Application {

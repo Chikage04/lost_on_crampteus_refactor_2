@@ -32,14 +32,14 @@ public class Monde {
         this.pnjs = new ArrayList<>();
         this.itemsAuSol = FXCollections.observableArrayList();
         initItemAuSol();
-        System.out.println("Nouveau monde de créé " + this);
+        //System.out.println("Nouveau monde de créé " + this);
     }
 
     public static Monde getInstance(){
         if(uniqueInstance==null){
             uniqueInstance = new Monde();
         }
-        System.out.println("Instance retournée " + uniqueInstance);
+        //System.out.println("Instance retournée " + uniqueInstance);
         return uniqueInstance;
     }
 
@@ -100,9 +100,7 @@ public class Monde {
         return joueur;
     }
 
-    public ArrayList<Pnj> getPnjs() {
-        return pnjs;
-    }
+    public ArrayList<Pnj> getPnjs() { return pnjs; }
 
     public void ajouterPnj(Pnj pnj){
         pnjs.add(pnj);

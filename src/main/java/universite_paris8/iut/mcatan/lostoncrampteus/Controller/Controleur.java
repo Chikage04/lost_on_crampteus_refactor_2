@@ -98,7 +98,7 @@ public class Controleur implements Initializable {
 
         for (int i = 0; i <= 2; i++) {
             vueGronfleur.ajouterGronfleur();
-            monde.getPnjs().get(i).setPosX((i*64)+896);
+            monde.getPnjs().get(i).setPosX((i*64)+200);
         }
 
         setupAnimation();

@@ -16,6 +16,7 @@ public class BlocFactory implements ItemFactory {
             case "cramptenium" -> new Cramptenium();
             case "cuivre" -> new Cuivre();
             case "pierre" -> new Pierre();
+
             default -> null;
         };
     }
