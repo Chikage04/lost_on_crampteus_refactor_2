@@ -2,11 +2,11 @@ package universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc;
 
 public class Pierre extends Bloc{
     public Pierre() {
-        super("pierre", 20, 1, 110, new int[]{33});
+        super("pierre", 20, 1, 110, 33);
     }
 
     @Override
-    public int[] getTileId() {
+    public int getTileId() {
         return this.id;
     }
 }

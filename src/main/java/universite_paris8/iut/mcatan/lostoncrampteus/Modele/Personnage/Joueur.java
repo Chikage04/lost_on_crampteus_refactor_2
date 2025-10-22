@@ -204,6 +204,7 @@ public class Joueur extends Acteur {
     }
 
     private String getBlocTypeFromTileType(int tileType) {
+
         return switch (tileType) {
             case 1 -> "grass";
             case 2 -> "dirt";
