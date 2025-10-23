@@ -89,7 +89,7 @@ public class SourisHandler {
 
         if (!estTropProche) {
             if (!estCaseOccupee) {
-                monde.getJoueur().getItemEquipee().utiliser(monde,tileX, tileY);
+                monde.getJoueur().getItemEquipee().utiliser(tileX, tileY);
                 vueTerrain.updateTile(tileX,tileY);
             } else {
                 System.out.println("Case déjà occupée !");

@@ -1,8 +1,6 @@
 package universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Consomable;
 
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Hitbox;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Item;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
 
 public  class ItemConsommable extends Item {
 
@@ -16,7 +14,7 @@ public  class ItemConsommable extends Item {
     }
 
     @Override
-    public void utiliser(Monde monde, int tileX, int tileY){
+    public void utiliser(int tileX, int tileY){
 
     }
 

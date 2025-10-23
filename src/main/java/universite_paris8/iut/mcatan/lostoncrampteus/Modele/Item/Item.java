@@ -2,7 +2,6 @@ package universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
 
 public abstract class Item {
 
@@ -49,7 +48,7 @@ public abstract class Item {
     public abstract void attaquer(int tileX, int tileY);
 
     // pour le clic droit
-    public abstract void utiliser(Monde monde, int tileX, int tileY);
+    public abstract void utiliser(int tileX, int tileY);
 
 
     public void decrementerStack(){

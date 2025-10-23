@@ -1,21 +1,19 @@
 package universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueUI;
 
 import javafx.scene.control.ProgressBar;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Joueur;
 
 public class VueVie {
 
     private ProgressBar vie;
-    private Monde monde;
 
-    public VueVie(Monde monde, ProgressBar vie){
-        this.monde = monde;
+    public VueVie(ProgressBar vie){
         this.vie = vie;
         init();
     }
 
     private void init(){
-        this.vie.progressProperty().bind(monde.getJoueur().getPvProperty());
+        this.vie.progressProperty().bind(Joueur.getInstance().getPvProperty());
 
     }
 

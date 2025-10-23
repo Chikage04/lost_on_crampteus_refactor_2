@@ -5,7 +5,6 @@ import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Inventaire;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.*;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Arme.Epee;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Consomable.PotionPv;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,24 +37,24 @@ public class Craft {
         return new HashMap<>(recettesMap);
     }
 
-    public Item craft(String nomItem, Inventaire inventaire) {
+    public Item craft(String nomItem) {
         Recette recette = recettesMap.get(nomItem);
-        if (recette == null || !recette.peutEtreCraft(inventaire)) {
+        if (recette == null || !recette.peutEtreCraft()) {
             return null;
         }
 
         for (Map.Entry<String, Integer> entry : recette.getIngredients().entrySet()) {
-            retirerIngredients(inventaire, entry.getKey(), entry.getValue());
+            retirerIngredients(entry.getKey(), entry.getValue());
         }
 
         return recette.getResultat();
     }
 
-    private void retirerIngredients(Inventaire inventaire, String nomItem, int quantite) {
+    private void retirerIngredients(String nomItem, int quantite) {
         int resteARetirer = quantite;
         ArrayList<Item> itemsAretirer = new ArrayList<>();
 
-        for (Item item : inventaire.getInventaireList()) {
+        for (Item item : Inventaire.getInstance().getInventaireList()) {
             if (resteARetirer > 0) {
                 if (item.getNom().equals(nomItem)) {
                     int quantiteDansStack = item.getTailleStack();
@@ -72,7 +71,7 @@ public class Craft {
         }
 
         for (Item item : itemsAretirer) {
-            inventaire.enleverItem(item);
+            Inventaire.getInstance().enleverItem(item);
         }
     }
 }

@@ -1,7 +1,5 @@
 package universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage;
 
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.AlgoRecherche;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Strategy.DeplacementTerrestreStrategy;
 
 public class Gronfleur extends Ennemis {
@@ -21,7 +19,7 @@ public class Gronfleur extends Ennemis {
 
     @Override
     public void attaquer() {
-        if (super.getMonde().getJoueur().getHitbox().colision(this.getHitbox()))
-            super.getMonde().getJoueur().perdreVie(0.003);
+        if (Joueur.getInstance().getHitbox().colision(this.getHitbox()))
+            Joueur.getInstance().perdreVie(0.003);
     }
 }

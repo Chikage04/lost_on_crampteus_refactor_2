@@ -10,13 +10,12 @@ import java.util.ArrayList;
 public class VueTerrain {
 
     private TilePane tilePane;
-    private Terrain terrain;
+    private Terrain terrain = Terrain.getInstance();
     private ArrayList<ImageView> tuilesSolideVue;
     private ImageView[][] tileViews;
 
-    public VueTerrain(TilePane tilePane, Terrain terrain, ArrayList<ImageView> tuilesSolides){
+    public VueTerrain(TilePane tilePane, ArrayList<ImageView> tuilesSolides){
         this.tilePane = tilePane;
-        this.terrain = terrain;
         tilePane.setPrefHeight(terrain.getMapWidth());
         tilePane.setPrefWidth(terrain.getMapWidth());
         this.tuilesSolideVue = tuilesSolides;

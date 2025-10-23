@@ -6,12 +6,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Joueur;
 
 import java.util.HashSet;
 
 public class VueJoueur {
 
-    private Monde monde;
     private ImageView imageView;
 
     private Image[] framesStatiques;
@@ -22,16 +22,15 @@ public class VueJoueur {
     private int compteurFrame = 0;
     private int frameDelay = 5;
 
-    public VueJoueur(Monde monde, Rectangle player){
-        this.monde = monde;
+    public VueJoueur(Rectangle player){
 
         Pane parent = (Pane) player.getParent();
         this.imageView = new ImageView();
         this.imageView.setFitWidth(32);
         this.imageView.setFitHeight(64);
 
-        imageView.translateXProperty().bind(monde.getJoueur().getPosXProperty());
-        imageView.translateYProperty().bind(monde.getJoueur().getPosYProperty());
+        imageView.translateXProperty().bind(Joueur.getInstance().getPosXProperty());
+        imageView.translateYProperty().bind(Joueur.getInstance().getPosYProperty());
 
         parent.getChildren().remove(player);
         parent.getChildren().add(imageView);

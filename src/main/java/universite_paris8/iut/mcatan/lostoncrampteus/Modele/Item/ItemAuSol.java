@@ -2,13 +2,13 @@ package universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Hitbox;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Terrain;
 
 // il faudra que itemAuSol extend la classe Acteur qui soit rename en Entite
 public class ItemAuSol {
     private final Item item;
-    private final Monde monde;
     private final DoubleProperty posX = new SimpleDoubleProperty();
     private final DoubleProperty posY = new SimpleDoubleProperty();
     private final double width = 22;
@@ -16,9 +16,8 @@ public class ItemAuSol {
     private double velocityY = 0;
 
 
-    public ItemAuSol(Item item, double posX, double posY, Monde monde) {
+    public ItemAuSol(Item item, double posX, double posY) {
         this.item = item;
-        this.monde = monde;
         this.posX.set(posX);
         this.posY.set(posY);
     }
@@ -27,10 +26,11 @@ public class ItemAuSol {
     public void updateGraviteItem() {
         double nextY = getPosY() + velocityY;
 
+        Monde.getInstance();
         velocityY += Monde.GRAVITY;
 
         Hitbox testY = new Hitbox(getPosX(), nextY, getWidth(), getHeight());
-        if (!monde.getTerrain().checkCollision(testY)) {
+        if (!Terrain.getInstance().checkCollision(testY)) {
             setPosY(nextY);
         } else {
             if (velocityY > 0) {

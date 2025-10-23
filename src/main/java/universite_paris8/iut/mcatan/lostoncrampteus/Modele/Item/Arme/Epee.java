@@ -14,11 +14,6 @@ public class Epee extends Arme {
         this.range = 64;
     }
 
-    public Epee(int range) {
-        super("épée", 10, 100);
-        this.range = range;
-    }
-
 
     @Override
     public String toString() {

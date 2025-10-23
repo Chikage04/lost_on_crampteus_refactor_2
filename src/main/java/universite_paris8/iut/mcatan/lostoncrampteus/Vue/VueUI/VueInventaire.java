@@ -4,6 +4,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import universite_paris8.iut.mcatan.lostoncrampteus.Controller.Controleur;
 import universite_paris8.iut.mcatan.lostoncrampteus.Controller.ObservateurInventaire;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Inventaire;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Item;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
 
@@ -20,8 +21,8 @@ public class VueInventaire {
         this.inventaire = inventaire;
         this.monde = monde;
         this.itemSelectionne = null;
-        this.observateur = new ObservateurInventaire(inventaire, this, controleur.getVueCraft(), monde);
-        this.monde.getJoueur().getInventaire().getInventaireList().addListener(observateur);
+        this.observateur = new ObservateurInventaire(inventaire, this, controleur.getVueCraft());
+        Inventaire.getInstance().getInventaireList().addListener(observateur);
         init();
     }
 

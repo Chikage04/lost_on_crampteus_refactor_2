@@ -18,9 +18,9 @@ public class Recette {
         ingredients.put(nomItem, quantite);
     }
 
-    public boolean peutEtreCraft(Inventaire inventaire) {
+    public boolean peutEtreCraft() {
         for (Map.Entry<String, Integer> entry : ingredients.entrySet()) {
-            if (inventaire.getQuantite(entry.getKey()) < entry.getValue()) {
+            if (Inventaire.getInstance().getQuantite(entry.getKey()) < entry.getValue()) {
                 return false;
             }
         }

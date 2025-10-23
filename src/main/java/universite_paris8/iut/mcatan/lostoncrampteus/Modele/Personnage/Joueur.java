@@ -26,7 +26,6 @@ public class Joueur extends Acteur {
     private static Joueur uniqueInstance=null;
     private Item itemEquipee;
     private Armure armureEquipee;
-    private Inventaire inventaire;
     private Craft systemeDeCraft;
     private ArrayList<Bloc> blocEnCoursCassage;
     private Map<String, Recette> recetteDisponible;
@@ -37,7 +36,6 @@ public class Joueur extends Acteur {
         setWidth(28);
         this.itemEquipee = null;
         this.armureEquipee = null;
-        this.inventaire = new Inventaire(10, this);
         this.systemeDeCraft = new Craft();
         this.blocEnCoursCassage = new ArrayList<>();
         this.recetteDisponible = new HashMap<>();
@@ -49,12 +47,11 @@ public class Joueur extends Acteur {
         if (uniqueInstance == null) {
             uniqueInstance = new Joueur();
         }
-        //System.out.println("Joueur retourné " + uniqueInstance);
         return uniqueInstance;
     }
 
 
-    public void updatePosition(Terrain terrain, HashSet<KeyCode> activeKeys) {
+    public void updatePosition(HashSet<KeyCode> activeKeys) {
         if (estVivant()) {
             double nextX = getPosX() + velocityX;
 
@@ -64,21 +61,21 @@ public class Joueur extends Acteur {
             }
             if(activeKeys.contains(KeyCode.SPACE)){
                 Hitbox estAuSol = new Hitbox(getPosX(), getPosY() + 2, getWidth(), getHeight());
-                if (terrain.checkCollision(estAuSol)) {
+                if (Terrain.getInstance().checkCollision(estAuSol)) {
                     velocityY = -11;
                 }
             }
 
 
             Hitbox testX = new Hitbox(nextX, getPosY(), getWidth(), getHeight());
-            if (!terrain.checkCollision(testX)) {
+            if (!Terrain.getInstance().checkCollision(testX)) {
                 setPosX(nextX);
             } else {
                 velocityX = 0;
             }
 
             Hitbox frottementSol = new Hitbox(getPosX(), getPosY() + 1, getWidth(), getHeight());
-            boolean auSol = terrain.checkCollision(frottementSol);
+            boolean auSol = Terrain.getInstance().checkCollision(frottementSol);
             if (auSol) {
                 velocityX *= 0.6;
             } else {
@@ -91,7 +88,7 @@ public class Joueur extends Acteur {
         Hitbox hitboxJoueur = getHitbox();
         ArrayList<ItemAuSol> itemsARamasser = new ArrayList<>();
 
-        for (ItemAuSol item : super.getMonde().getItemsAuSol()) {
+        for (ItemAuSol item : Monde.getInstance().getItemsAuSol()) {
             Hitbox hitboxItem = new Hitbox(item.getPosX(), item.getPosY(), TILE_SIZE, TILE_SIZE);
             if (hitboxJoueur.colision(hitboxItem)) {
                 itemsARamasser.add(item);
@@ -99,27 +96,27 @@ public class Joueur extends Acteur {
         }
 
         for (ItemAuSol item : itemsARamasser) {
-            if (!inventaire.estPlein()) {
+            if (!Inventaire.getInstance().estPlein()) {
                 ajoutInventaire(item.getItem());
-                super.getMonde().enleverItemAuSol(item);
+                Monde.getInstance().enleverItemAuSol(item);
                 miseAjourRecettesDisponibles();
             }
-            else if (inventaire.estPlein() && item.getItem().peutEtreStacke()) {
+            else if (Inventaire.getInstance().estPlein() && item.getItem().peutEtreStacke()) {
                 ajoutInventaire(item.getItem());
-                super.getMonde().enleverItemAuSol(item);
+                Monde.getInstance().enleverItemAuSol(item);
                 miseAjourRecettesDisponibles();
             }
         }
     }
 
     public boolean craftItem(String nomItem) {
-        Item resultat = systemeDeCraft.craft(nomItem, inventaire);
+        Item resultat = systemeDeCraft.craft(nomItem);
         if (resultat != null) {
-            if (!inventaire.estPlein()) {
-                inventaire.ajouterItem(resultat);
+            if (!Inventaire.getInstance().estPlein()) {
+                Inventaire.getInstance().ajouterItem(resultat);
             }
             else {
-                super.getMonde().ajouterItemAuSol(resultat, getPosX()-TILE_SIZE, getPosY());//si inventaire est plein on met l'item au sol
+                Monde.getInstance().ajouterItemAuSol(resultat, getPosX()-TILE_SIZE, getPosY());//si inventaire est plein on met l'item au sol
             }
             miseAjourRecettesDisponibles();
             return true;
@@ -132,7 +129,7 @@ public class Joueur extends Acteur {
         Map<String, Recette> toutesRecettes = systemeDeCraft.getToutesRecettes();
 
         for (Map.Entry<String, Recette> entry : toutesRecettes.entrySet()) {
-            if (entry.getValue().peutEtreCraft(inventaire)) {
+            if (entry.getValue().peutEtreCraft()) {
                 recetteDisponible.put(entry.getKey(), entry.getValue());
             }
         }
@@ -143,16 +140,12 @@ public class Joueur extends Acteur {
     }
 
     public void ajoutInventaire(Item item) {
-        this.inventaire.ajouterItem(item);
+        Inventaire.getInstance().ajouterItem(item);
         miseAjourRecettesDisponibles();
     }
 
     public Item getItemEquipee(){
         return this.itemEquipee;
-    }
-
-    public Inventaire getInventaire(){
-        return this.inventaire;
     }
 
     public Armure getArmureEquipee(){
@@ -163,7 +156,7 @@ public class Joueur extends Acteur {
         this.armureEquipee = armure;
     }
 
-    public void casserTile(Terrain terrain, int x, int y) {
+    public void casserTile(int x, int y) {
         boolean blocExistantTrouve = false;
         int i = blocEnCoursCassage.size() - 1;
 
@@ -176,22 +169,22 @@ public class Joueur extends Acteur {
                 System.out.println(bloc.getDurabilite());
 
                 if (bloc.estDetruit()) {
-                    terrain.getMap()[y][x] = 0;
+                    Terrain.getInstance().getMap()[y][x] = 0;
                     blocEnCoursCassage.remove(i);
-                    terrain.mettreAJourCollisionTuile(x, y);
-                    super.getMonde().ajouterItemAuSol(bloc,x*TILE_SIZE,y*TILE_SIZE);
+                    Terrain.getInstance().mettreAJourCollisionTuile(x, y);
+                    Monde.getInstance().ajouterItemAuSol(bloc,x*TILE_SIZE,y*TILE_SIZE);
                 }
             }
             i--;
         }
 
-        if (!blocExistantTrouve) ajouterBlocEnCourCassage(terrain, x, y);
+        if (!blocExistantTrouve) ajouterBlocEnCourCassage(x, y);
     }
 
     private BlocFactory blocFactory;
 
-    private void ajouterBlocEnCourCassage(Terrain terrain, int x, int y){
-        int tileType = terrain.getMap()[y][x];
+    private void ajouterBlocEnCourCassage(int x, int y){
+        int tileType = Terrain.getInstance().getMap()[y][x];
         String blocType = getBlocTypeFromTileType(tileType);
 
         if (blocType != null) {
@@ -218,12 +211,12 @@ public class Joueur extends Acteur {
         };
     }
 
-    public void placerTile(Terrain terrain, int x, int y, int tile){
-        terrain.getMap()[y][x] = tile;
-        terrain.mettreAJourCollisionTuile(x,y);
+    public void placerTile(int x, int y, int tile){
+        Terrain.getInstance().getMap()[y][x] = tile;
+        Terrain.getInstance().mettreAJourCollisionTuile(x,y);
         itemEquipee.decrementerStack();
         if (itemEquipee.getTailleStack() == 0){
-            inventaire.enleverItem(itemEquipee);
+            Inventaire.getInstance().enleverItem(itemEquipee);
         }
     }
 

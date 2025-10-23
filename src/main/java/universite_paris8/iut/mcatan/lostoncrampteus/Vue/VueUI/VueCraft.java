@@ -3,17 +3,15 @@ package universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueUI;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Craft.Recette;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Joueur;
 
 import java.util.Map;
 
 public class VueCraft {
     private SplitMenuButton craft;
-    private Monde monde;
 
-    public VueCraft(SplitMenuButton craft, Monde monde) {
+    public VueCraft(SplitMenuButton craft) {
         this.craft = craft;
-        this.monde = monde;
         init();
     }
 
@@ -24,7 +22,7 @@ public class VueCraft {
 
     public void updateVueItemCraftable() {
         craft.getItems().clear();
-        Map<String, Recette> itemCraftable = monde.getJoueur().getRecetteDisponible();
+        Map<String, Recette> itemCraftable = Joueur.getInstance().getRecetteDisponible();
 
         if (itemCraftable != null && !itemCraftable.isEmpty()) {
             for (Map.Entry<String, Recette> entry : itemCraftable.entrySet()) {
@@ -43,7 +41,7 @@ public class VueCraft {
 
     private void actionCraftItemVue(MenuItem menuItem, String nomItem) {
         menuItem.setOnAction(event -> {
-            if (monde.getJoueur().craftItem(nomItem)) {
+            if (Joueur.getInstance().craftItem(nomItem)) {
                 updateVueItemCraftable();
             }
         });

@@ -7,9 +7,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.TilePane;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Inventaire;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc.Bloc;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Item;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Joueur;
 import universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueUI.VueCraft;
 import universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueUI.VueInventaire;
 
@@ -22,12 +24,10 @@ public class ObservateurInventaire implements ListChangeListener<Item> {
     private TilePane tilePane;
     private VueInventaire vueInventaire;
     private VueCraft vueCraft;
-    private Monde monde;
     public Map<Item, ImageView> itemVue;
 
-    public ObservateurInventaire(TilePane tilePane, VueInventaire vueInventaire, VueCraft vueCraft,Monde monde) {
+    public ObservateurInventaire(TilePane tilePane, VueInventaire vueInventaire, VueCraft vueCraft) {
         this.tilePane = tilePane;
-        this.monde = monde;
         this.itemVue = new HashMap<>();
         this.vueInventaire = vueInventaire;
         this.vueCraft = vueCraft;
@@ -73,17 +73,17 @@ public class ObservateurInventaire implements ListChangeListener<Item> {
 
     public void selectionnerItem(Item item) {
         vueInventaire.setItemSelectionneVue(item);
-        monde.getJoueur().setItemEquipee(item);
+        Joueur.getInstance().setItemEquipee(item);
         vueInventaire.mettreEnEvidenceSelection();
     }
 
     public void jeterItemSelectionne() {
         if (vueInventaire.getItemSelectionneVue() != null) {
-            monde.ajouterItemAuSol(vueInventaire.getItemSelectionneVue(), monde.getJoueur().getPosX() + 32, monde.getJoueur().getPosY());
-            monde.getJoueur().getInventaire().enleverItem(vueInventaire.getItemSelectionneVue());
+            Monde.getInstance().ajouterItemAuSol(vueInventaire.getItemSelectionneVue(), Joueur.getInstance().getPosX() + 32, Joueur.getInstance().getPosY());
+            Inventaire.getInstance().enleverItem(vueInventaire.getItemSelectionneVue());
 
-            if (vueInventaire.getItemSelectionneVue() == monde.getJoueur().getItemEquipee()) {
-                monde.getJoueur().setItemEquipee(null);
+            if (vueInventaire.getItemSelectionneVue() == Joueur.getInstance().getItemEquipee()) {
+                Joueur.getInstance().setItemEquipee(null);
             }
             vueInventaire.setItemSelectionneVue(null);
             vueInventaire.mettreEnEvidenceSelection(); // pour enlever la mise en évidence

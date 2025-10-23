@@ -9,12 +9,10 @@ import java.util.ArrayList;
 public class VueItemAuSol {
     private final ArrayList<VueItem> vuesItems;
     private final Pane gamePane;
-    private final Monde monde;
     private ObservateurItemAuSol observateur;
 
     public VueItemAuSol(Pane gamePane, Monde monde) {
         this.gamePane = gamePane;
-        this.monde = monde;
         this.vuesItems = new ArrayList<>();
         this.observateur = new ObservateurItemAuSol(this);
         monde.getItemsAuSol().addListener(this.observateur);
@@ -23,14 +21,14 @@ public class VueItemAuSol {
 
     // afficher les item au sol initialiser dans la class monde
     private void init(){
-        for (ItemAuSol item : monde.getItemsAuSol()) {
+        for (ItemAuSol item : Monde.getInstance().getItemsAuSol()) {
             ajouterVueItem(item);
         }
     }
 
     public void supprimerVueItem() {
         vuesItems.removeIf(vue -> {
-            if (!monde.getItemsAuSol().contains(vue.getItemAuSol())) {
+            if (!Monde.getInstance().getItemsAuSol().contains(vue.getItemAuSol())) {
                 gamePane.getChildren().remove(vue.getImageView());
                 return true;
             }

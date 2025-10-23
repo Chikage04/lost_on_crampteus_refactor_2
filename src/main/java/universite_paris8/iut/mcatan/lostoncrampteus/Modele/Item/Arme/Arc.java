@@ -6,10 +6,6 @@ public class Arc extends Arme {
         super("arc", 50, 100);
     }
 
-    public Arc(int degats, int durabilite) {
-        super("arc", degats, durabilite);
-    }
-
     @Override
     public String toString() {
         return "arc";

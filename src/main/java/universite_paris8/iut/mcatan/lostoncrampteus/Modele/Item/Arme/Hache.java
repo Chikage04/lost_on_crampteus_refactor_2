@@ -6,10 +6,6 @@ public class Hache extends Arme {
         super("hache", 10, 100);
     }
 
-    public Hache(String nom, int degats, int durabilite, int range) {
-        super("hache", 10, 100);
-    }
-
     @Override
     public void attaquer(int tileX, int tileY) {
 

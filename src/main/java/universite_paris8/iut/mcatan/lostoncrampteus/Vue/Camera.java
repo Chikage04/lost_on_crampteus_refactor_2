@@ -7,12 +7,11 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Joueur;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Terrain;
 
 public class Camera {
 
-    private Monde monde;
     private Pane gamePane;
     private TilePane inventaire;
     private ProgressBar vie;
@@ -21,8 +20,7 @@ public class Camera {
     private double viewportWidth;
     private double viewportHeight;
 
-    public Camera(Monde monde, Pane gamePane, Label stackItem, TilePane inventaire, ProgressBar vie , SplitMenuButton craft, double viewportWidth, double viewportHeight) {
-        this.monde = monde;
+    public Camera(Pane gamePane, Label stackItem, TilePane inventaire, ProgressBar vie , SplitMenuButton craft, double viewportWidth, double viewportHeight) {
         this.gamePane = gamePane;
         this.inventaire = inventaire;
         this.stackItem = stackItem;
@@ -34,7 +32,7 @@ public class Camera {
     }
 
     private void init() {
-        Joueur joueur = monde.getJoueur();
+        Joueur joueur = Joueur.getInstance();
 
         ChangeListener<Number> listener = new ChangeListener<>() {
             @Override
@@ -55,8 +53,8 @@ public class Camera {
         double offsetY = playerY - viewportHeight / 2;
 
 
-        double maxOffsetX = monde.getTerrain().getMapWidth() - viewportWidth;
-        double maxOffsetY = monde.getTerrain().getMapHeight() - viewportHeight;
+        double maxOffsetX = Terrain.getInstance().getMapWidth() - viewportWidth;
+        double maxOffsetY = Terrain.getInstance().getMapHeight() - viewportHeight;
 
         offsetX = Math.max(0, Math.min(offsetX, maxOffsetX));
         offsetY = Math.max(0, Math.min(offsetY, maxOffsetY));

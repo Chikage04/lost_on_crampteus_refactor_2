@@ -32,7 +32,7 @@ public class Application extends javafx.application.Application {
         Pane gamePane = controleur.getGamePane();
 
 
-        Camera camera = new Camera(controleur.getMonde(), gamePane, controleur.getNbStackItem(),controleur.getInventaire(),controleur.getVie(), controleur.getCraft(),WINDOW_WIDTH, WINDOW_HEIGHT);
+        Camera camera = new Camera(gamePane, controleur.getNbStackItem(),controleur.getInventaire(),controleur.getVie(), controleur.getCraft(),WINDOW_WIDTH, WINDOW_HEIGHT);
 
         KeyEventHandler keyEventHandler = new KeyEventHandler(controleur);
 

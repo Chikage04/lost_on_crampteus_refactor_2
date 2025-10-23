@@ -1,22 +1,28 @@
 package universite_paris8.iut.mcatan.lostoncrampteus.Modele;
 
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Item;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Joueur;
+
 import java.util.ArrayList;
 
 public class Inventaire {
 
     private ObservableList<Item> inventaire;
     private int tailleMax;
-    private Joueur joueur;
+    private static Inventaire uniqueInstance = null;
 
-    public Inventaire(int tailleMax, Joueur joueur){
+    private Inventaire(int tailleMax){
         this.inventaire = FXCollections.observableArrayList();
         this.tailleMax = tailleMax;
-        this.joueur = joueur;
+    }
+
+    public static Inventaire getInstance() {
+        if (uniqueInstance == null) {
+            uniqueInstance = new Inventaire(10);
+        }
+        return uniqueInstance;
     }
 
     public int getQuantite(String nom) {
@@ -30,8 +36,8 @@ public class Inventaire {
     }
 
     public void enleverItem(Item item){
-        if (joueur.getItemEquipee() == item){
-            joueur.setItemEquipee(null);
+        if (Joueur.getInstance().getItemEquipee() == item){
+            Joueur.getInstance().setItemEquipee(null);
         }
         this.inventaire.remove(item);
         System.out.println(inventaire);

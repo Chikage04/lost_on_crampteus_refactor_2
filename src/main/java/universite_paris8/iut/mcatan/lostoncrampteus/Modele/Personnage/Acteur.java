@@ -101,10 +101,6 @@ public abstract class Acteur {
         return height;
     }
 
-    public Monde getMonde() {
-        return Monde.getInstance();
-    }
-
     public void setHeight(double height) {
         this.height = height;
     }
@@ -125,10 +121,11 @@ public abstract class Acteur {
     public void appliquerGravite(){
         double nextY = getPosY() + velocityY;
 
+        Monde.getInstance();
         velocityY += Monde.GRAVITY;
 
         Hitbox testY = new Hitbox(getPosX(), nextY, getWidth(), getHeight());
-        if (!getMonde().getTerrain().checkCollision(testY)) {
+        if (!Terrain.getInstance().checkCollision(testY)) {
             setPosY(nextY);
         } else {
             if (velocityY > 0) {

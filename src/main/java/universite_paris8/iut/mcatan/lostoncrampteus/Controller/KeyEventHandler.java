@@ -3,6 +3,7 @@ package universite_paris8.iut.mcatan.lostoncrampteus.Controller;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
 
 public class KeyEventHandler implements EventHandler <KeyEvent>{
 
@@ -21,7 +22,7 @@ public class KeyEventHandler implements EventHandler <KeyEvent>{
         } else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {
             controleur.getActiveKeys().remove(code);
             if (code == KeyCode.K) {
-                System.out.println(controleur.getMonde().getPnjs());
+                System.out.println(Monde.getInstance().getPnjs());
             }
         }
     }

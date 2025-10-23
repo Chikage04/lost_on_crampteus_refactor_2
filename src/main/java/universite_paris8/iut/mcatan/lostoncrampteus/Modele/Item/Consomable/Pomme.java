@@ -1,6 +1,7 @@
 package universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Consomable;
 
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Inventaire;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Joueur;
 
 public class Pomme extends ItemConsommable {
     public Pomme() {
@@ -8,14 +9,14 @@ public class Pomme extends ItemConsommable {
     }
 
     @Override
-    public void utiliser(Monde monde, int tileX, int tileY) {
-        if (!(monde.getJoueur().getPvProperty().getValue() == 1.0)){
-            monde.getJoueur().ajouterVie(0.015);
+    public void utiliser(int tileX, int tileY) {
+        if (!(Joueur.getInstance().getPvProperty().getValue() == 1.0)){
+            Joueur.getInstance().ajouterVie(0.015);
             setTailleStack(this.getTailleStack()-1);
         }
 
         if (this.getTailleStack() == 0){
-            monde.getJoueur().getInventaire().enleverItem(this);
+            Inventaire.getInstance().enleverItem(this);
         }
     }
 

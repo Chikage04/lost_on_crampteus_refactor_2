@@ -40,7 +40,7 @@ public class ItemAvecDurabilite extends Item{
     }
 
     @Override
-    public void utiliser(Monde monde, int tileX, int tileY) {
+    public void utiliser(int tileX, int tileY) {
 
     }
 }

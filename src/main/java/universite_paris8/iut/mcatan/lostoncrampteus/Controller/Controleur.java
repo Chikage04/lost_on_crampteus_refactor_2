@@ -86,15 +86,15 @@ public class Controleur implements Initializable {
         monde.setJoueur(Joueur.getInstance());
 
         vueItemAuSol = new VueItemAuSol(gamePane, monde); // faire attention a l'ordre
-        vueJoueur = new VueJoueur(monde, playerVue);
-        vueTerrain = new VueTerrain(tilePane, monde.getTerrain(), tuilesSolides);
-        vueStackItem = new VueStackItem(nbStackItem,monde);
+        vueJoueur = new VueJoueur(playerVue);
+        vueTerrain = new VueTerrain(tilePane, tuilesSolides);
+        vueStackItem = new VueStackItem(nbStackItem);
         vueTerrain.chargeTiles();
-        vueCraft = new VueCraft(craft, monde);
+        vueCraft = new VueCraft(craft);
 
-        vueVie = new VueVie(monde, vie);
+        vueVie = new VueVie(vie);
         vueInventaire = new VueInventaire(inventaire, monde, this);
-        vueGronfleur = new VueGronfleur(monde, gamePane);
+        vueGronfleur = new VueGronfleur(gamePane);
 
         for (int i = 0; i <= 2; i++) {
             vueGronfleur.ajouterGronfleur();
@@ -153,10 +153,6 @@ public class Controleur implements Initializable {
 
     public Pane getGamePane() {
         return gamePane;
-    }
-
-    public Monde getMonde() {
-        return monde;
     }
 
     public TilePane getInventaire() {

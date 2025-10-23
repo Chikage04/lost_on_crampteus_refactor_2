@@ -1,17 +1,15 @@
 package universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueUI;
 
 import javafx.scene.control.Label;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Item;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Joueur;
 
 public class VueStackItem {
 
     private Label nbStackItem;
-    private Monde monde;
 
-    public VueStackItem(Label nbStackItem, Monde monde) {
+    public VueStackItem(Label nbStackItem) {
         this.nbStackItem = nbStackItem;
-        this.monde = monde;
         init();
         update();
     }
@@ -22,7 +20,7 @@ public class VueStackItem {
     }
 
     public void update() {
-        Item itemEquipe = monde.getJoueur().getItemEquipee();
+        Item itemEquipe = Joueur.getInstance().getItemEquipee();
         if (itemEquipe != null) {
             itemEquipe.getTailleStackProperty().addListener((observable, oldValue, newValue) -> {
                 nbStackItem.setText(newValue.toString());

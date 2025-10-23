@@ -68,14 +68,14 @@ public class Monde {
         appliquerGraviteItem();
         appliquerGraviteActeurs();
         joueur.checkRamassageItems();
-        joueur.updatePosition(Terrain.getInstance(), activeKeys);
+        joueur.updatePosition(activeKeys);
         for (Pnj acteur : pnjs) {
             acteur.seDeplacer();
         }
     }
 
     public void ajouterItemAuSol(Item item, double x, double y) {
-        itemsAuSol.add(new ItemAuSol(item, x, y,this));
+        itemsAuSol.add(new ItemAuSol(item, x, y));
     }
 
     public void appliquerGraviteItem() {

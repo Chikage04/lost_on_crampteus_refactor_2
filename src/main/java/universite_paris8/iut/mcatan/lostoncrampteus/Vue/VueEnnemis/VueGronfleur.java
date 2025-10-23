@@ -4,15 +4,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Gronfleur;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
 
 public class VueGronfleur {
 
     private Pane gamePane;
-    private Monde monde;
 
-    public VueGronfleur(Monde monde, Pane gamePane){
-        this.monde = monde;
+    public VueGronfleur(Pane gamePane){
         this.gamePane = gamePane;
     }
 
