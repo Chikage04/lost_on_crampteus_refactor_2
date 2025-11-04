@@ -39,7 +39,6 @@ public class Monde {
         if(uniqueInstance==null){
             uniqueInstance = new Monde();
         }
-        System.out.println("Instance retournée " + uniqueInstance);
         return uniqueInstance;
     }
 

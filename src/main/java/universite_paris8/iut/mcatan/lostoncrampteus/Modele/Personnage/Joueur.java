@@ -13,7 +13,8 @@ import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Item;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.ItemAuSol;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Terrain;
-
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc.BlocType;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -49,7 +50,6 @@ public class Joueur extends Acteur {
         if (uniqueInstance == null) {
             uniqueInstance = new Joueur();
         }
-        System.out.println("Joueur retourné " + uniqueInstance);
         return uniqueInstance;
     }
 
@@ -165,8 +165,11 @@ public class Joueur extends Acteur {
 
     public void casserTile(Terrain terrain, int x, int y) {
         boolean blocExistantTrouve = false;
+       // if (blocEnCoursCassage.size() < 0) if (!blocExistantTrouve) ajouterBlocEnCourCassage(terrain, x, y);
+
         int i = blocEnCoursCassage.size() - 1;
 
+        System.out.println(i);
         while (i >= 0 && !blocExistantTrouve) { // parcour a l'envers pour eviter les problemes d'index
             Bloc bloc = blocEnCoursCassage.get(i);
             if (bloc.getX() == x && bloc.getY() == y) {
@@ -184,7 +187,6 @@ public class Joueur extends Acteur {
             }
             i--;
         }
-
         if (!blocExistantTrouve) ajouterBlocEnCourCassage(terrain, x, y);
     }
 
@@ -192,31 +194,17 @@ public class Joueur extends Acteur {
 
     private void ajouterBlocEnCourCassage(Terrain terrain, int x, int y){
         int tileType = terrain.getMap()[y][x];
-        String blocType = getBlocTypeFromTileType(tileType);
 
-        if (blocType != null) {
-            Bloc nouveauBloc = (Bloc) blocFactory.createItem(blocType);
-            if (nouveauBloc != null) {
+        // Utiliser BlocType pour obtenir le type de bloc
+        BlocType type = BlocType.fromTileType(tileType);
+        if (type != null) {
+            Item item = blocFactory.createItem(type.getKey());
+            if (item instanceof Bloc) {
+                Bloc nouveauBloc = (Bloc) item;
                 nouveauBloc.setPosition(x, y);
                 blocEnCoursCassage.add(nouveauBloc);
             }
         }
-    }
-
-    private String getBlocTypeFromTileType(int tileType) {
-
-        return switch (tileType) {
-            case 1 -> "grass";
-            case 2 -> "dirt";
-            case 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 -> "bois";
-            case 29 -> "aluminium";
-            case 30 -> "cramptenium";
-            case 31 -> "cuivre";
-            case 32 -> "fer";
-            case 33 -> "pierre";
-            case 34 -> "Gintoki";
-            default -> null;
-        };
     }
 
     public void placerTile(Terrain terrain, int x, int y, int tile){
@@ -232,8 +220,9 @@ public class Joueur extends Acteur {
         this.itemEquipee = itemSelectionne;
     }
 
-    public void attaquer(Acteur cible) {
-        if(itemEquipee instanceof Arme)
-            cible.perdreVie(((Arme) itemEquipee).getDegats());
+    public void attaquer(int tileX, int tileY) {
+      //  if(itemEquipee instanceof Arme)
+          //  cible.perdreVie(((Arme) itemEquipee).getDegats());
+        getItemEquipee().attaquer(tileX, tileY);
     }
 }

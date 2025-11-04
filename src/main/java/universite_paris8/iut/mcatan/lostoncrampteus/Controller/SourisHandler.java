@@ -1,6 +1,7 @@
 package universite_paris8.iut.mcatan.lostoncrampteus.Controller;
 
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Joueur;
 import universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueTerrain;
 import static universite_paris8.iut.mcatan.lostoncrampteus.Controller.Constants.GameConstants.*;
 import javafx.scene.input.MouseEvent;
@@ -79,7 +80,7 @@ public class SourisHandler {
     }
 
     private void gererClicGauche(int tileX, int tileY) {
-        monde.getJoueur().getItemEquipee().attaquer(tileX, tileY);
+        Joueur.getInstance().attaquer(tileX, tileY);
         vueTerrain.updateTile(tileX, tileY);
     }
 
