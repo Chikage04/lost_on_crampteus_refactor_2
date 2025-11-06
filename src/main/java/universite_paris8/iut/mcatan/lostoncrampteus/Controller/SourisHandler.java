@@ -1,7 +1,8 @@
 package universite_paris8.iut.mcatan.lostoncrampteus.Controller;
 
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Arme.Arme;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Item;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Joueur;
 import universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueTerrain;
 import static universite_paris8.iut.mcatan.lostoncrampteus.Controller.Constants.GameConstants.*;
 import javafx.scene.input.MouseEvent;
@@ -9,6 +10,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+
+import java.util.ArrayList;
 
 public class SourisHandler {
 
@@ -79,9 +82,34 @@ public class SourisHandler {
         }
     }
 
+    // Dans la classe SourisHandler
+
     private void gererClicGauche(int tileX, int tileY) {
-        Joueur.getInstance().attaquer(tileX, tileY);
-        vueTerrain.updateTile(tileX, tileY);
+        Item itemEquipee = monde.getJoueur().getItemEquipee();
+
+        if (itemEquipee != null) {
+            if (itemEquipee instanceof Arme armeActuelle) {
+                ArrayList<int[]> affected = armeActuelle.performAttack(tileX, tileY);
+
+                if (affected == null || affected.isEmpty()) {
+                    vueTerrain.updateTile(tileX, tileY);
+                    return;
+                }
+
+                for (int[] coord : affected) {
+                    if (coord != null && coord.length >= 2) {
+                        int x = coord[0];
+                        int y = coord[1];
+                        if (x >= 0 && y >= 0 && x < monde.getTerrain().getMap()[0].length && y < monde.getTerrain().getMap().length) {
+                            vueTerrain.updateTile(x, y);
+                        }
+                    }
+                }
+                return;
+            }
+            monde.getJoueur().attaquer(tileX, tileY);
+            vueTerrain.updateTile(tileX, tileY);
+        }
     }
 
     private void gererClicDroit(int tileX, int tileY, double distance) {
