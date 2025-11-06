@@ -11,10 +11,8 @@ import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc.*;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Factory.BlocFactory;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Item;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.ItemAuSol;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Terrain;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc.BlocType;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,10 +25,10 @@ public class Joueur extends Acteur {
     private static Joueur uniqueInstance=null;
     private Item itemEquipee;
     private Armure armureEquipee;
-    private Inventaire inventaire;
-    private Craft systemeDeCraft;
-    private ArrayList<Bloc> blocEnCoursCassage;
-    private Map<String, Recette> recetteDisponible;
+    private final Inventaire inventaire;
+    private final Craft systemeDeCraft;
+    private final Map<String, Bloc> blocEnCoursCassage;
+    private final Map<String, Recette> recetteDisponible;
 
     private Joueur() {
         super(100);
@@ -40,7 +38,7 @@ public class Joueur extends Acteur {
         this.armureEquipee = null;
         this.inventaire = new Inventaire(10, this);
         this.systemeDeCraft = new Craft();
-        this.blocEnCoursCassage = new ArrayList<>();
+        this.blocEnCoursCassage = new HashMap<>();
         this.recetteDisponible = new HashMap<>();
         this.blocFactory = new BlocFactory();
     }
@@ -164,33 +162,29 @@ public class Joueur extends Acteur {
     }
 
     public void casserTile(Terrain terrain, int x, int y) {
-        boolean blocExistantTrouve = false;
-       // if (blocEnCoursCassage.size() < 0) if (!blocExistantTrouve) ajouterBlocEnCourCassage(terrain, x, y);
+        String key = x + ":" + y;
+        Bloc bloc = blocEnCoursCassage.get(key);
 
-        int i = blocEnCoursCassage.size() - 1;
-
-        System.out.println(i);
-        while (i >= 0 && !blocExistantTrouve) { // parcour a l'envers pour eviter les problemes d'index
-            Bloc bloc = blocEnCoursCassage.get(i);
-            if (bloc.getX() == x && bloc.getY() == y) {
-                blocExistantTrouve = true;
-
-                bloc.perdreDurabilite(((Arme) itemEquipee).getDegats());
-                System.out.println(bloc.getDurabilite());
-
-                if (bloc.estDetruit()) {
-                    terrain.getMap()[y][x] = 0;
-                    blocEnCoursCassage.remove(i);
-                    terrain.mettreAJourCollisionTuile(x, y);
-                    super.getMonde().ajouterItemAuSol(bloc,x*TILE_SIZE,y*TILE_SIZE);
-                }
-            }
-            i--;
+        if (bloc == null) {
+            ajouterBlocEnCourCassage(terrain, x, y);
+            bloc = blocEnCoursCassage.get(key);
+            if (bloc == null) return;
         }
-        if (!blocExistantTrouve) ajouterBlocEnCourCassage(terrain, x, y);
+
+        int degats = (itemEquipee instanceof Arme) ? ((Arme) itemEquipee).getDegats() : 1;
+
+        bloc.perdreDurabilite(degats);
+
+        if (bloc.estDetruit()) {
+            terrain.getMap()[y][x] = 0;
+            blocEnCoursCassage.remove(key);
+            terrain.mettreAJourCollisionTuile(x, y);
+            super.getMonde().ajouterItemAuSol(bloc, x * TILE_SIZE, y * TILE_SIZE);
+        }
     }
 
-    private BlocFactory blocFactory;
+
+    private final BlocFactory blocFactory;
 
     private void ajouterBlocEnCourCassage(Terrain terrain, int x, int y){
         int tileType = terrain.getMap()[y][x];
@@ -199,10 +193,10 @@ public class Joueur extends Acteur {
         BlocType type = BlocType.fromTileType(tileType);
         if (type != null) {
             Item item = blocFactory.createItem(type.getKey());
-            if (item instanceof Bloc) {
-                Bloc nouveauBloc = (Bloc) item;
+            if (item instanceof Bloc nouveauBloc) {
                 nouveauBloc.setPosition(x, y);
-                blocEnCoursCassage.add(nouveauBloc);
+                String key = x + ":" + y;
+                blocEnCoursCassage.put(key, nouveauBloc);
             }
         }
     }
