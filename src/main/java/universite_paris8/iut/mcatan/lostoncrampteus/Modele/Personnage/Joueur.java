@@ -183,7 +183,6 @@ public class Joueur extends Acteur {
         }
     }
 
-
     private final BlocFactory blocFactory;
 
     private void ajouterBlocEnCourCassage(Terrain terrain, int x, int y){

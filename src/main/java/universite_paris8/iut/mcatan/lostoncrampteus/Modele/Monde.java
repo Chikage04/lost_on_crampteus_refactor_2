@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.input.KeyCode;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Arme.Epee;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Arme.Marteau;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Arme.Pioche;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc.Aluminium;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc.Fer;
@@ -61,6 +62,7 @@ public class Monde {
 
         ajouterItemAuSol(new Pioche(), 0 , 0);
         ajouterItemAuSol(new Epee(), 0, 0);
+        ajouterItemAuSol(new Marteau(), 0, 0);
     }
 
     public void updateMonde(HashSet<KeyCode> activeKeys) {
