@@ -5,23 +5,26 @@ import java.util.Map;
 
 
 public enum BlocType {
-    GRASS("grass", 1),
-    DIRT("dirt", 2),
-    BOIS("bois", 15,16,17,18,19,20,21,22,23,24,25,26,27,28),
-    ALUMINIUM("aluminium", 29),
-    CRAMPTENIUM("cramptenium", 30),
-    CUIVRE("cuivre", 31),
-    FER("fer", 32),
-    PIERRE("pierre", 33),
-    GINTOKI("gintoki", 34);
+    GRASS("grass", true, 1),
+    DIRT("dirt", true, 2),
+    BOIS("bois", true, 15,16,17,18,19,20,21,22,23,24,25,26,27,28),
+    ALUMINIUM("aluminium", true, 29),
+    CRAMPTENIUM("cramptenium", true, 30),
+    CUIVRE("cuivre", true, 31),
+    FER("fer", true, 32),
+    PIERRE("pierre", true, 33),
+    GINTOKI("gintoki", true, 34),
+    AIR("air", false, 0);
 
     private final String key;
+    private final boolean isSolid;
     private final int[] tileIds;
 
     private static final Map<Integer, BlocType> TILE_MAP = new HashMap<>();
 
-    BlocType(String key, int... tileIds) {
+    BlocType(String key, boolean isSolid, int... tileIds) {
         this.key = key;
+        this.isSolid = isSolid;
         this.tileIds = tileIds;
     }
 
@@ -31,6 +34,10 @@ public enum BlocType {
 
     public int[] getTileIds() {
         return tileIds;
+    }
+
+    public boolean isSolid() {
+        return isSolid;
     }
 
     static {

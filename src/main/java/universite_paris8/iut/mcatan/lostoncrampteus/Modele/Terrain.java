@@ -3,6 +3,7 @@ package universite_paris8.iut.mcatan.lostoncrampteus.Modele;
 import java.util.ArrayList;
 
 import static universite_paris8.iut.mcatan.lostoncrampteus.Controller.Constants.GameConstants.*;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc.BlocType;
 
 public class Terrain {
 
@@ -11,25 +12,19 @@ public class Terrain {
     private double scale;
     private double tileSize;
     public static int compteur = 0;
-    public int [] tuillesSolide;
     private ArrayList<Hitbox> collisionTiles;
 
     private Terrain (){
         this.map = null;
         this.scale = 1;
         this.tileSize = TILE_SIZE * scale;
-        this.tuillesSolide = new int[]{1,2,15,16,29,30,31,32,33,34};
         this.collisionTiles = new ArrayList<>();
         initialiserMap();
         initialiserCollisions();
         System.out.println("Nouveau terrain créé " + this);
     }
-
     public static Terrain getInstance(){
-        if(uniqueInstance==null){
-            uniqueInstance = new Terrain();
-        }
-        return uniqueInstance;
+        return uniqueInstance != null ? uniqueInstance : (uniqueInstance = new Terrain());
     }
 
     public void initialiserCollisions() {
@@ -58,7 +53,7 @@ public class Terrain {
             i++;
         }
 
-        if(map[y][x] != 0){
+        if (estTuilleSolide(map[y][x])){
             collisionTiles.add(new Hitbox(posX,posY, tileSize, tileSize));
         }
     }
@@ -125,13 +120,9 @@ public class Terrain {
 
     }
 
-    public boolean estTuilleSolide(int numéroTuiles){
-        for (int i = 0; i < this.tuillesSolide.length; i++) {
-            if (tuillesSolide[i] == numéroTuiles){
-                return true;
-            }
-        }
-        return false;
+    public boolean estTuilleSolide(int numeroTuile){
+        BlocType type = BlocType.fromTileType(numeroTuile);
+        return type != null && type.isSolid();
     }
 
     public double getMapHeight(){
