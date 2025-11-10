@@ -3,14 +3,15 @@ package universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.ItemAvecDurabilite;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Joueur;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Terrain;
 
 public abstract class Bloc extends ItemAvecDurabilite {
 
     int x;
     int y;
-    int[] id;
+    int id;
 
-    public Bloc(String nom, int stackLimit, int tailleStack, int durabilite, int[] id) {
+    public Bloc(String nom, int stackLimit, int tailleStack, int durabilite, int id) {
         super(nom, stackLimit, tailleStack, durabilite);
         this.x = 0;
         this.y = 0;
@@ -29,11 +30,12 @@ public abstract class Bloc extends ItemAvecDurabilite {
     public int getY() {
         return y;
     }
-    public abstract int[] getTileId();
+    public abstract int getTileId();
 
     @Override
     public void utiliser(int tileX, int tileY){
-        Joueur.getInstance().placerTile(tileX, tileY, this.getTileId()[0]);
+        Joueur.getInstance().placerTile(Terrain.getInstance(), tileX, tileY, this.getTileId());
         }
     }
+
 

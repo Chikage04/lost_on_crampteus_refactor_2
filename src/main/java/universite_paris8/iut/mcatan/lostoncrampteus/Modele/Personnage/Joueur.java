@@ -13,7 +13,7 @@ import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Item;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.ItemAuSol;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Terrain;
-
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc.BlocType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,7 +37,7 @@ public class Joueur extends Acteur {
         this.itemEquipe = null;
         this.armureEquipee = null;
         this.systemeDeCraft = new Craft();
-        this.blocEnCoursCassage = new ArrayList<>();
+        this.blocEnCoursCassage = new HashMap<>();
         this.recetteDisponible = new HashMap<>();
         this.blocFactory = new BlocFactory();
     }
@@ -157,58 +157,42 @@ public class Joueur extends Acteur {
     }
 
     public void casserTile(int x, int y) {
-        boolean blocExistantTrouve = false;
-        int i = blocEnCoursCassage.size() - 1;
+        String key = x + ":" + y;
+        Bloc bloc = blocEnCoursCassage.get(key);
 
-        while (i >= 0 && !blocExistantTrouve) { // parcour a l'envers pour eviter les problemes d'index
-            Bloc bloc = blocEnCoursCassage.get(i);
-            if (bloc.getX() == x && bloc.getY() == y) {
-                blocExistantTrouve = true;
-
-                bloc.perdreDurabilite(((Arme) itemEquipe).getDegats());
-                System.out.println(bloc.getDurabilite());
-
-                if (bloc.estDetruit()) {
-                    Terrain.getInstance().getMap()[y][x] = 0;
-                    blocEnCoursCassage.remove(i);
-                    Terrain.getInstance().mettreAJourCollisionTuile(x, y);
-                    Monde.getInstance().ajouterItemAuSol(bloc,x*TILE_SIZE,y*TILE_SIZE);
-                }
-            }
-            i--;
+        if (bloc == null) {
+            ajouterBlocEnCourCassage(x, y);
+            bloc = blocEnCoursCassage.get(key);
+            if (bloc == null) return;
         }
 
-        if (!blocExistantTrouve) ajouterBlocEnCourCassage(x, y);
+        int degats = (itemEquipe instanceof Arme) ? ((Arme) itemEquipe).getDegats() : 1;
+
+        bloc.perdreDurabilite(degats);
+
+        if (bloc.estDetruit()) {
+            Terrain.getInstance().getMap()[y][x] = 0;
+            blocEnCoursCassage.remove(key);
+            Terrain.getInstance().mettreAJourCollisionTuile(x, y);
+            Monde.getInstance().ajouterItemAuSol(bloc, x * TILE_SIZE, y * TILE_SIZE);
+        }
     }
 
-    private BlocFactory blocFactory;
+    private final BlocFactory blocFactory;
 
     private void ajouterBlocEnCourCassage(int x, int y){
         int tileType = Terrain.getInstance().getMap()[y][x];
-        String blocType = getBlocTypeFromTileType(tileType);
 
-        if (blocType != null) {
-            Bloc nouveauBloc = (Bloc) blocFactory.createItem(blocType);
-            if (nouveauBloc != null) {
+        // Utiliser BlocType pour obtenir le type de bloc
+        BlocType type = BlocType.fromTileType(tileType);
+        if (type != null) {
+            Item item = blocFactory.createItem(type.getKey());
+            if (item instanceof Bloc nouveauBloc) {
                 nouveauBloc.setPosition(x, y);
-                blocEnCoursCassage.add(nouveauBloc);
+                String key = x + ":" + y;
+                blocEnCoursCassage.put(key, nouveauBloc);
             }
         }
-    }
-
-    private String getBlocTypeFromTileType(int tileType) {
-        return switch (tileType) {
-            case 1 -> "grass";
-            case 2 -> "dirt";
-            case 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 -> "bois";
-            case 29 -> "aluminium";
-            case 30 -> "cramptenium";
-            case 31 -> "cuivre";
-            case 32 -> "fer";
-            case 33 -> "pierre";
-            case 34 -> "Gintoki";
-            default -> null;
-        };
     }
 
     public void placerTile(int x, int y, int tile){
@@ -224,8 +208,9 @@ public class Joueur extends Acteur {
         this.itemEquipe = itemSelectionne;
     }
 
-    public void attaquer(Acteur cible) {
-        if(itemEquipe instanceof Arme)
-            cible.perdreVie(((Arme) itemEquipe).getDegats());
+    public void attaquer(int tileX, int tileY) {
+      //  if(itemEquipee instanceof Arme)
+          //  cible.perdreVie(((Arme) itemEquipee).getDegats());
+        itemEquipe.attaquer(tileX, tileY);
     }
 }
