@@ -1,6 +1,7 @@
 package universite_paris8.iut.mcatan.lostoncrampteus.Controller;
 
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Joueur;
 import universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueTerrain;
 import static universite_paris8.iut.mcatan.lostoncrampteus.Controller.Constants.GameConstants.*;
 import javafx.scene.input.MouseEvent;
@@ -63,7 +64,7 @@ public class SourisHandler {
         int tileX = (int) (event.getX() / TILE_SIZE);
         int tileY = (int) (event.getY() / TILE_SIZE);
 
-        if (estDansLesLimites(tileX, tileY) && monde.getJoueur().getItemEquipee() != null) {
+        if (estDansLesLimites(tileX, tileY) && Joueur.getInstance().getitemEquipe() != null) {
             double distance = distanceToPlayer(tileX, tileY);
 
             if (distance <= PLAYER_INTERACTION_RANGE) {
@@ -79,7 +80,7 @@ public class SourisHandler {
     }
 
     private void gererClicGauche(int tileX, int tileY) {
-        monde.getJoueur().getItemEquipee().attaquer(tileX, tileY);
+        Joueur.getInstance().getitemEquipe().attaquer(tileX, tileY);
         vueTerrain.updateTile(tileX, tileY);
     }
 
@@ -89,7 +90,7 @@ public class SourisHandler {
 
         if (!estTropProche) {
             if (!estCaseOccupee) {
-                monde.getJoueur().getItemEquipee().utiliser(tileX, tileY);
+                Joueur.getInstance().getitemEquipe().utiliser(tileX, tileY);
                 vueTerrain.updateTile(tileX,tileY);
             } else {
                 System.out.println("Case déjà occupée !");

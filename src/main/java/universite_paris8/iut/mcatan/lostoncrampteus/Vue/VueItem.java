@@ -3,7 +3,6 @@ package universite_paris8.iut.mcatan.lostoncrampteus.Vue;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.ItemAuSol;
-
 import java.util.Objects;
 
 public class VueItem {

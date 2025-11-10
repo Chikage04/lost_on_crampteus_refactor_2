@@ -24,7 +24,7 @@ import static universite_paris8.iut.mcatan.lostoncrampteus.Controller.Constants.
 public class Joueur extends Acteur {
 
     private static Joueur uniqueInstance=null;
-    private Item itemEquipee;
+    private Item itemEquipe;
     private Armure armureEquipee;
     private Craft systemeDeCraft;
     private ArrayList<Bloc> blocEnCoursCassage;
@@ -34,7 +34,7 @@ public class Joueur extends Acteur {
         super(100);
         setHeight(60);
         setWidth(28);
-        this.itemEquipee = null;
+        this.itemEquipe = null;
         this.armureEquipee = null;
         this.systemeDeCraft = new Craft();
         this.blocEnCoursCassage = new ArrayList<>();
@@ -144,8 +144,8 @@ public class Joueur extends Acteur {
         miseAjourRecettesDisponibles();
     }
 
-    public Item getItemEquipee(){
-        return this.itemEquipee;
+    public Item getitemEquipe(){
+        return this.itemEquipe;
     }
 
     public Armure getArmureEquipee(){
@@ -165,7 +165,7 @@ public class Joueur extends Acteur {
             if (bloc.getX() == x && bloc.getY() == y) {
                 blocExistantTrouve = true;
 
-                bloc.perdreDurabilite(((Arme) itemEquipee).getDegats());
+                bloc.perdreDurabilite(((Arme) itemEquipe).getDegats());
                 System.out.println(bloc.getDurabilite());
 
                 if (bloc.estDetruit()) {
@@ -214,18 +214,18 @@ public class Joueur extends Acteur {
     public void placerTile(int x, int y, int tile){
         Terrain.getInstance().getMap()[y][x] = tile;
         Terrain.getInstance().mettreAJourCollisionTuile(x,y);
-        itemEquipee.decrementerStack();
-        if (itemEquipee.getTailleStack() == 0){
-            Inventaire.getInstance().enleverItem(itemEquipee);
+        itemEquipe.decrementerStack();
+        if (itemEquipe.getTailleStack() == 0){
+            Inventaire.getInstance().enleverItem(itemEquipe);
         }
     }
 
-    public void setItemEquipee(Item itemSelectionne) {
-        this.itemEquipee = itemSelectionne;
+    public void setitemEquipe(Item itemSelectionne) {
+        this.itemEquipe = itemSelectionne;
     }
 
     public void attaquer(Acteur cible) {
-        if(itemEquipee instanceof Arme)
-            cible.perdreVie(((Arme) itemEquipee).getDegats());
+        if(itemEquipe instanceof Arme)
+            cible.perdreVie(((Arme) itemEquipe).getDegats());
     }
 }

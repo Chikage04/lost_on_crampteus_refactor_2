@@ -4,7 +4,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Terrain;
-
 import java.util.ArrayList;
 
 public class VueTerrain {

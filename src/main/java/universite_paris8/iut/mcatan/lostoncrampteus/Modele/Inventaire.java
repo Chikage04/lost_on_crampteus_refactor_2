@@ -36,8 +36,8 @@ public class Inventaire {
     }
 
     public void enleverItem(Item item){
-        if (Joueur.getInstance().getItemEquipee() == item){
-            Joueur.getInstance().setItemEquipee(null);
+        if (Joueur.getInstance().getitemEquipe() == item){
+            Joueur.getInstance().setitemEquipe(null);
         }
         this.inventaire.remove(item);
         System.out.println(inventaire);

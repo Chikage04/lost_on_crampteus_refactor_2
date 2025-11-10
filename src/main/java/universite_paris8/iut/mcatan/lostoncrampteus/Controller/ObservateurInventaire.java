@@ -73,7 +73,7 @@ public class ObservateurInventaire implements ListChangeListener<Item> {
 
     public void selectionnerItem(Item item) {
         vueInventaire.setItemSelectionneVue(item);
-        Joueur.getInstance().setItemEquipee(item);
+        Joueur.getInstance().setitemEquipe(item);
         vueInventaire.mettreEnEvidenceSelection();
     }
 
@@ -82,8 +82,8 @@ public class ObservateurInventaire implements ListChangeListener<Item> {
             Monde.getInstance().ajouterItemAuSol(vueInventaire.getItemSelectionneVue(), Joueur.getInstance().getPosX() + 32, Joueur.getInstance().getPosY());
             Inventaire.getInstance().enleverItem(vueInventaire.getItemSelectionneVue());
 
-            if (vueInventaire.getItemSelectionneVue() == Joueur.getInstance().getItemEquipee()) {
-                Joueur.getInstance().setItemEquipee(null);
+            if (vueInventaire.getItemSelectionneVue() == Joueur.getInstance().getitemEquipe()) {
+                Joueur.getInstance().setitemEquipe(null);
             }
             vueInventaire.setItemSelectionneVue(null);
             vueInventaire.mettreEnEvidenceSelection(); // pour enlever la mise en évidence

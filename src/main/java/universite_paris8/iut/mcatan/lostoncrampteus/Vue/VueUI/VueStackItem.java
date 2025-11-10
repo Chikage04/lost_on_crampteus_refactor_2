@@ -20,7 +20,7 @@ public class VueStackItem {
     }
 
     public void update() {
-        Item itemEquipe = Joueur.getInstance().getItemEquipee();
+        Item itemEquipe = Joueur.getInstance().getitemEquipe();
         if (itemEquipe != null) {
             itemEquipe.getTailleStackProperty().addListener((observable, oldValue, newValue) -> {
                 nbStackItem.setText(newValue.toString());

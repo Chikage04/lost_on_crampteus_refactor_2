@@ -6,16 +6,18 @@ import javafx.scene.input.KeyCode;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Arme.Epee;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Arme.Pioche;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc.Aluminium;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc.Cuivre;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc.Fer;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Consomable.Pomme;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Consomable.PotionPv;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Consomable.Sac;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Item;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.ItemAuSol;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Acteur;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Joueur;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Pnj;
-
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 import static universite_paris8.iut.mcatan.lostoncrampteus.Controller.Constants.GameConstants.TILE_SIZE;
@@ -32,14 +34,12 @@ public class Monde {
         this.pnjs = new ArrayList<>();
         this.itemsAuSol = FXCollections.observableArrayList();
         initItemAuSol();
-        //System.out.println("Nouveau monde de créé " + this);
     }
 
     public static Monde getInstance(){
         if(uniqueInstance==null){
             uniqueInstance = new Monde();
         }
-        //System.out.println("Instance retournée " + uniqueInstance);
         return uniqueInstance;
     }
 
@@ -54,6 +54,8 @@ public class Monde {
 
         // deux en plus pour tester le ramassage
         ajouterItemAuSol(new Pomme(), 22*TILE_SIZE, 19*TILE_SIZE);
+
+        ajouterItemAuSol(new Sac(new ArrayList<>(Arrays.asList(new Pomme(), new Cuivre(), new PotionPv()))), 180, 180);
 
         for (int i =0; i < 4; i++) {
             ajouterItemAuSol(new Aluminium(), 21*TILE_SIZE, 19*TILE_SIZE);
