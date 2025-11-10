@@ -4,38 +4,37 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Hitbox;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Terrain;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Map.Terrain;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Physics.PhysicalEntity;
 
-public abstract class Acteur {
-
+/**
+ * Classe abstraite représentant un personnage dans le jeu
+ * Implémente PhysicalEntity pour la gestion centralisée de la physique
+ */
+public abstract class Acteur implements PhysicalEntity {
     private DoubleProperty pv;
     private int id;
     private DoubleProperty posX;
     private DoubleProperty posY;
     protected double velocityX;
     protected double velocityY;
-
-    private Hitbox hitbox;
     private double width;
     private double height;
-
     protected Monde monde;
 
     public Acteur(double pv, Monde monde) {
         this.pv = new SimpleDoubleProperty(1);
         this.id = Terrain.compteur++;
-
         this.posX = new SimpleDoubleProperty(0);
         this.posY = new SimpleDoubleProperty(0);
         this.velocityX = 0;
         this.velocityY = 0;
         this.width = 30;
         this.height = 30;
-
-        this.hitbox = new Hitbox(getPosX(), getPosY(), width, height);
-
         this.monde = monde;
     }
+
+    // ==================== MÉTHODES MÉTIER ====================
 
     public int getId(){
         return this.id;
@@ -58,6 +57,24 @@ public abstract class Acteur {
         return this.pv.getValue() > 0;
     }
 
+    public void perdreVie(double pv){
+        if (getPvProperty().getValue() > 0)
+            setPv(getPvProperty().getValue()  - pv);
+    }
+
+    public void ajouterVie(double pv){
+        setPv(getPvProperty().getValue() + pv);
+    }
+
+    /**
+     * Méthode utilitaire pour vérifier si une action peut être exécutée
+     */
+    protected boolean peutAgir() {
+        return estVivant();
+    }
+
+    // ==================== PROPRIÉTÉS PHYSIQUES ====================
+
     public DoubleProperty getPosXProperty() {
         return posX;
     }
@@ -66,10 +83,12 @@ public abstract class Acteur {
         return posY;
     }
 
+    @Override
     public double getPosX(){
         return this.posX.getValue();
     }
-    
+
+    @Override
     public double getPosY(){
         return this.posY.getValue();
     }
@@ -77,30 +96,40 @@ public abstract class Acteur {
     public void setPosX(double posX) {
         this.posX.set(posX);
     }
-    
+
+    @Override
     public void setPosY(double posY) {
-        this.posY.set( posY);
+        this.posY.set(posY);
     }
 
     public double getVelocityX() {
         return velocityX;
     }
 
+    public void setVelocityX(double velocityX) {
+        this.velocityX = velocityX;
+    }
+
+    @Override
     public double getVelocityY() {
         return velocityY;
     }
 
+    @Override
     public void setVelocityY(double velocityY) {
         this.velocityY = velocityY;
     }
 
     public Hitbox getHitbox() {
-        return new Hitbox(getPosX(), getPosY(), width, height); //mettre a jour la hitbox du jour a chaque fois que la position change
+        return new Hitbox(getPosX(), getPosY(), width, height);
     }
+
+    @Override
     public double getWidth() {
         return width;
     }
 
+    @Override
     public double getHeight() {
         return height;
     }
@@ -117,34 +146,21 @@ public abstract class Acteur {
         this.width = width;
     }
 
-    public void perdreVie(double pv){
-        if (getPvProperty().getValue() > 0)
-            setPv(getPvProperty().getValue()  - pv);
-    }
+    // ==================== IMPLÉMENTATION PHYSICALENTITY ====================
 
-    public void ajouterVie(double pv){
-        setPv(getPvProperty().getValue() + pv);
-    }
-
-    public void appliquerGravite(){
-        double nextY = getPosY() + velocityY;
-
-        velocityY += Monde.GRAVITY;
-
-        Hitbox testY = new Hitbox(getPosX(), nextY, getWidth(), getHeight());
-        if (!monde.getTerrain().checkCollision(testY)) {
-            setPosY(nextY);
-        } else {
-            if (velocityY > 0) {
-                velocityY = 0;
-            }
-        }
+    @Override
+    public boolean isAffectedByGravity() {
+        return true; // Tous les Acteurs sont affectés par la gravité
     }
 
     @Override
-    public String toString() {
-        return getClass().getSimpleName();
+    public double getGravityScale() {
+        return 1.0; // Gravité normale par défaut
     }
 
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "{id=" + id + ", pv=" + pv.getValue() + "}";
+    }
 }

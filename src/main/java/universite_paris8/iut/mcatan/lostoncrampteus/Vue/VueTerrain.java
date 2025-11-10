@@ -3,7 +3,8 @@ package universite_paris8.iut.mcatan.lostoncrampteus.Vue;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Terrain;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Map.Terrain;
+import universite_paris8.iut.mcatan.lostoncrampteus.Utils.ResourceManager;
 
 import java.util.ArrayList;
 
@@ -46,7 +47,6 @@ public class VueTerrain {
                 if (tile == 1 || tile == 2 || tile == 15 || tile == 16 || tile == 29 || tile == 30 || tile == 31 || tile == 32 || tile == 33) {
                     tuilesSolideVue.add(imageView);
                 }
-
             }
         }
     }
@@ -54,50 +54,51 @@ public class VueTerrain {
     private ArrayList<Image> getAllTileImages() {
         ArrayList<Image> images = new ArrayList<>();
 
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/sky1.png")));             // 0
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/grass.png")));            // 1
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/dirt.png")));             // 2
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/sky2.png")));             // 3
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/sky3.png")));             // 4
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/sky4.png")));             // 5
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/sky5.png")));             // 6
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/sky6.png")));             // 7
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/sky7.png")));             // 8
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/sky8.png")));             // 9
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/sky9.png")));             // 10
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/sky10.png")));            // 11
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/sky11.png")));            // 12
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/sky12.png")));            // 13
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/sky13.png")));            // 14
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Arbre/arbre1.png")));     // 15
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Arbre/arbre2.png")));     // 16
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Arbre/arbre3.png")));     // 17
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Arbre/arbre4.png")));     // 18
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Arbre/arbre5.png")));     // 19
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Arbre/arbre6.png")));     // 20
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Arbre/arbre7.png")));     // 21
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Arbre/arbre8.png")));     // 22
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Arbre/arbre9.png")));     // 23
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Arbre/arbre10.png")));    // 24
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Arbre/arbre11.png")));    // 25
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Arbre/arbre12.png")));    // 26
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Arbre/arbre13.png")));    // 27
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Arbre/arbre14.png")));    // 28
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Items/Ressources/aluminium.png")));    // 29
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Items/Ressources/cramptenium.png")));    // 30
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Items/Ressources/cuivre.png")));    // 31
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Items/Ressources/fer.png")));    // 32
-        images.add(new Image(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Items/Ressources/pierre.png")));    // 33
+        // Utiliser le ResourceManager pour charger toutes les images de tuiles
+        ResourceManager rm = ResourceManager.getInstance();
 
+        images.add(rm.getImage("sky1.png"));                              // 0
+        images.add(rm.getImage("grass.png"));                             // 1
+        images.add(rm.getImage("dirt.png"));                              // 2
+        images.add(rm.getImage("sky2.png"));                              // 3
+        images.add(rm.getImage("sky3.png"));                              // 4
+        images.add(rm.getImage("sky4.png"));                              // 5
+        images.add(rm.getImage("sky5.png"));                              // 6
+        images.add(rm.getImage("sky6.png"));                              // 7
+        images.add(rm.getImage("sky7.png"));                              // 8
+        images.add(rm.getImage("sky8.png"));                              // 9
+        images.add(rm.getImage("sky9.png"));                              // 10
+        images.add(rm.getImage("sky10.png"));                             // 11
+        images.add(rm.getImage("sky11.png"));                             // 12
+        images.add(rm.getImage("sky12.png"));                             // 13
+        images.add(rm.getImage("sky13.png"));                             // 14
+        images.add(rm.getImage("Arbre/arbre1.png"));                      // 15
+        images.add(rm.getImage("Arbre/arbre2.png"));                      // 16
+        images.add(rm.getImage("Arbre/arbre3.png"));                      // 17
+        images.add(rm.getImage("Arbre/arbre4.png"));                      // 18
+        images.add(rm.getImage("Arbre/arbre5.png"));                      // 19
+        images.add(rm.getImage("Arbre/arbre6.png"));                      // 20
+        images.add(rm.getImage("Arbre/arbre7.png"));                      // 21
+        images.add(rm.getImage("Arbre/arbre8.png"));                      // 22
+        images.add(rm.getImage("Arbre/arbre9.png"));                      // 23
+        images.add(rm.getImage("Arbre/arbre10.png"));                     // 24
+        images.add(rm.getImage("Arbre/arbre11.png"));                     // 25
+        images.add(rm.getImage("Arbre/arbre12.png"));                     // 26
+        images.add(rm.getImage("Arbre/arbre13.png"));                     // 27
+        images.add(rm.getImage("Arbre/arbre14.png"));                     // 28
+        images.add(rm.getImage("Items/Ressources/aluminium.png"));        // 29
+        images.add(rm.getImage("Items/Ressources/cramptenium.png"));      // 30
+        images.add(rm.getImage("Items/Ressources/cuivre.png"));           // 31
+        images.add(rm.getImage("Items/Ressources/fer.png"));              // 32
+        images.add(rm.getImage("Items/Ressources/pierre.png"));           // 33
 
         return images;
     }
 
-
-
     public void updateTile(int x, int y){
         int tile = terrain.getMap()[y][x];
-        Image sprite = getAllTileImages().get(tile);
+        ArrayList<Image> images = getAllTileImages();
+        Image sprite = images.get(tile);
         tileViews[y][x].setImage(sprite);
 
         if (terrain.estTuilleSolide(tile)) {
@@ -108,7 +109,6 @@ public class VueTerrain {
             tuilesSolideVue.remove(tileViews[y][x]);
         }
     }
-
 
     public Terrain getTerrain() {
         return terrain;

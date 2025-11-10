@@ -6,6 +6,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
+import universite_paris8.iut.mcatan.lostoncrampteus.Utils.ResourceManager;
 
 import java.util.HashSet;
 
@@ -36,28 +37,29 @@ public class VueJoueur {
         parent.getChildren().remove(player);
         parent.getChildren().add(imageView);
 
-        //Chargement d'images
+        // Charger les images du joueur avec le ResourceManager
+        ResourceManager rm = ResourceManager.getInstance();
+
         framesStatiques = new Image[] {
-                new Image("file:src/main/resources/universite_paris8/iut/mcatan/lostoncrampteus/Images/joueur/joueur_idle2.png"),
-                new Image("file:src/main/resources/universite_paris8/iut/mcatan/lostoncrampteus/Images/joueur/joueur_idle3.png")
+                rm.getImage("joueur/joueur_idle2.png"),
+                rm.getImage("joueur/joueur_idle3.png")
         };
 
         gaucheFrames = new Image[]{
-                new Image("file:src/main/resources/universite_paris8/iut/mcatan/lostoncrampteus/Images/joueur/joueur_left1.png"),
-                new Image("file:src/main/resources/universite_paris8/iut/mcatan/lostoncrampteus/Images/joueur/joueur_left2.png"),
-                new Image("file:src/main/resources/universite_paris8/iut/mcatan/lostoncrampteus/Images/joueur/joueur_left3.png"),
-                new Image("file:src/main/resources/universite_paris8/iut/mcatan/lostoncrampteus/Images/joueur/joueur_left4.png")
+                rm.getImage("joueur/joueur_left1.png"),
+                rm.getImage("joueur/joueur_left2.png"),
+                rm.getImage("joueur/joueur_left3.png"),
+                rm.getImage("joueur/joueur_left4.png")
         };
 
         droiteFrames = new Image[]{
-                new Image("file:src/main/resources/universite_paris8/iut/mcatan/lostoncrampteus/Images/joueur/joueur_right1.png"),
-                new Image("file:src/main/resources/universite_paris8/iut/mcatan/lostoncrampteus/Images/joueur/joueur_right2.png"),
-                new Image("file:src/main/resources/universite_paris8/iut/mcatan/lostoncrampteus/Images/joueur/joueur_right3.png"),
-                new Image("file:src/main/resources/universite_paris8/iut/mcatan/lostoncrampteus/Images/joueur/joueur_right4.png")
+                rm.getImage("joueur/joueur_right1.png"),
+                rm.getImage("joueur/joueur_right2.png"),
+                rm.getImage("joueur/joueur_right3.png"),
+                rm.getImage("joueur/joueur_right4.png")
         };
 
         imageView.setImage(framesStatiques[0]);
-
     }
 
     public void updateAnimation(HashSet<KeyCode> activeKeys){

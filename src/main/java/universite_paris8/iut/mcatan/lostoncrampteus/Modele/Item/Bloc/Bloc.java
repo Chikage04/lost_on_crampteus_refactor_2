@@ -1,17 +1,31 @@
+// Modele/Item/Bloc/Bloc.java
 package universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc;
 
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.ItemAvecDurabilite;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Strategy.AttaqueNulleStrategy;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Strategy.UtilisationPlacementBlocStrategy;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Map.BlocFactory;
 
-public class Bloc extends ItemAvecDurabilite {
+/**
+ * Classe de base pour tous les blocs.
+ * Utilise UtilisationPlacementBlocStrategy pour être placé dans le monde.
+ */
+public abstract class Bloc extends ItemAvecDurabilite {
+    private int x;
+    private int y;
+    private final int tileId;
 
-    int x;
-    int y;
-
-    public Bloc(String nom, int stackLimit, int tailleStack, int durabilite) {
+    public Bloc(String nom, int stackLimit, int tailleStack, int durabilite, int tileId) {
         super(nom, stackLimit, tailleStack, durabilite);
+        this.tileId = tileId;
         this.x = 0;
         this.y = 0;
+
+        // Les blocs ne peuvent pas attaquer
+        setStrategieAttaque(new AttaqueNulleStrategy());
+
+        // Les blocs peuvent être placés
+        setStrategieUtilisation(new UtilisationPlacementBlocStrategy(tileId));
     }
 
     public void setPosition(int x, int y) {
@@ -27,34 +41,14 @@ public class Bloc extends ItemAvecDurabilite {
         return y;
     }
 
-    @Override
-    public void utiliser(Monde monde, int tileX, int tileY){
-        switch (monde.getJoueur().getItemEquipee().getNom()) {
-            case "grass":
-                monde.getJoueur().placerTile(monde.getTerrain(), tileX, tileY, 1);
-                break;
-            case "dirt":
-                monde.getJoueur().placerTile(monde.getTerrain(), tileX, tileY, 2);
-                break;
-            case "bois":
-                monde.getJoueur().placerTile(monde.getTerrain(), tileX, tileY, 15);
-                break;
-            case "aluminium":
-                monde.getJoueur().placerTile(monde.getTerrain(), tileX, tileY, 29);
-                break;
-            case "fer":
-                monde.getJoueur().placerTile(monde.getTerrain(), tileX, tileY, 32);
-                break;
-            case "cramptenium":
-                monde.getJoueur().placerTile(monde.getTerrain(), tileX, tileY, 30);
-                break;
-            case "cuivre":
-                monde.getJoueur().placerTile(monde.getTerrain(), tileX, tileY, 31);
-                break;
-            case "pierre":
-                monde.getJoueur().placerTile(monde.getTerrain(), tileX, tileY, 33);
-                break;
-        }
+    public int getTileId() {
+        return tileId;
     }
 
+    /**
+     * Méthode factory pour créer un bloc à partir de son tileId
+     */
+    public static Bloc createFromTileId(int tileId) {
+        return BlocFactory.createBloc(tileId);
+    }
 }

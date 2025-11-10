@@ -3,17 +3,17 @@ package universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueUI;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Craft.Recette;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Services.InventoryService;
 
 import java.util.Map;
 
 public class VueCraft {
     private SplitMenuButton craft;
-    private Monde monde;
+    private InventoryService inventoryService;
 
-    public VueCraft(SplitMenuButton craft, Monde monde) {
+    public VueCraft(SplitMenuButton craft, InventoryService inventoryService) {
         this.craft = craft;
-        this.monde = monde;
+        this.inventoryService = inventoryService;
         init();
     }
 
@@ -24,13 +24,16 @@ public class VueCraft {
 
     public void updateVueItemCraftable() {
         craft.getItems().clear();
-        Map<String, Recette> itemCraftable = monde.getJoueur().getRecetteDisponible();
 
-        if (itemCraftable != null && !itemCraftable.isEmpty()) {
-            for (Map.Entry<String, Recette> entry : itemCraftable.entrySet()) {
-                MenuItem menuItem = new MenuItem(entry.getKey());
-                actionCraftItemVue(menuItem, entry.getKey());
-                craft.getItems().add(menuItem);
+        if (inventoryService != null) {
+            Map<String, Recette> itemCraftable = inventoryService.getAvailableRecipes();
+
+            if (itemCraftable != null && !itemCraftable.isEmpty()) {
+                for (Map.Entry<String, Recette> entry : itemCraftable.entrySet()) {
+                    MenuItem menuItem = new MenuItem(entry.getKey());
+                    actionCraftItemVue(menuItem, entry.getKey());
+                    craft.getItems().add(menuItem);
+                }
             }
         }
 
@@ -41,9 +44,9 @@ public class VueCraft {
         }
     }
 
-    private void actionCraftItemVue(MenuItem menuItem, String nomItem) {
+    private void actionCraftItemVue(MenuItem menuItem, final String nomItem) {
         menuItem.setOnAction(event -> {
-            if (monde.getJoueur().craftItem(nomItem)) {
+            if (inventoryService.craftItem(nomItem)) {
                 updateVueItemCraftable();
             }
         });

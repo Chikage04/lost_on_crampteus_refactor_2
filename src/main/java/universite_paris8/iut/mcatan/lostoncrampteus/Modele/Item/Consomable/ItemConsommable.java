@@ -10,14 +10,4 @@ public  class ItemConsommable extends Item {
         super(nom, stackLimit, tailleStack);
     }
 
-    @Override
-    public void attaquer(int tileX, int tileY) {
-
-    }
-
-    @Override
-    public void utiliser(Monde monde, int tileX, int tileY){
-
-    }
-
 }

@@ -16,11 +16,4 @@ public  class Arme extends ItemAvecDurabilite {
         return this.degats;
     }
 
-
-    // pour le clic gauche
-    @Override
-    public void attaquer(int tileX, int tileY){
-
-    }
-
 }

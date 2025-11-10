@@ -2,6 +2,7 @@ package universite_paris8.iut.mcatan.lostoncrampteus.Modele;
 
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Joueur;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Personnage.Pnj;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Map.Terrain;
 
 public class AlgoRecherche {
 

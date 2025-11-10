@@ -34,13 +34,4 @@ public class ItemAvecDurabilite extends Item{
         this.durabilite.setValue(durabilite);
     }
 
-    @Override
-    public void attaquer(int tileX, int tileY) {
-
-    }
-
-    @Override
-    public void utiliser(Monde monde, int tileX, int tileY) {
-
-    }
 }

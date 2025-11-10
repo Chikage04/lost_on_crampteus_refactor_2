@@ -6,6 +6,8 @@ import universite_paris8.iut.mcatan.lostoncrampteus.Controller.Controleur;
 import universite_paris8.iut.mcatan.lostoncrampteus.Controller.ObservateurInventaire;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Item;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Services.PlayerService;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Services.InventoryService;
 
 public class VueInventaire {
 
@@ -15,20 +17,30 @@ public class VueInventaire {
     private ObservateurInventaire observateur;
     private Item itemSelectionne;
 
-    public VueInventaire(TilePane inventaire, Monde monde, Controleur controleur) {
+    public VueInventaire(TilePane inventaire,
+                         Monde monde,
+                         Controleur controleur,
+                         PlayerService playerService,
+                         InventoryService inventoryService) {
         this.controleur = controleur;
         this.inventaire = inventaire;
         this.monde = monde;
         this.itemSelectionne = null;
-        this.observateur = new ObservateurInventaire(inventaire, this, controleur.getVueCraft(), monde);
+
+        this.observateur = new ObservateurInventaire(
+                inventaire,
+                this,
+                controleur.getVueCraft(),
+                playerService,
+                inventoryService
+        );
+
         this.monde.getJoueur().getInventaire().getInventaireList().addListener(observateur);
         init();
     }
 
     public void init() {
         this.inventaire.getChildren().clear();
-
-
         this.inventaire.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
     }
 
@@ -38,7 +50,9 @@ public class VueInventaire {
         }
 
         if (itemSelectionne != null && observateur.itemVue.containsKey(itemSelectionne)) {
-            observateur.itemVue.get(itemSelectionne).setStyle("-fx-effect: dropshadow(three-pass-box, white, 10, 0.5, 0, 0);");
+            observateur.itemVue.get(itemSelectionne).setStyle(
+                    "-fx-effect: dropshadow(three-pass-box, white, 10, 0.5, 0, 0);"
+            );
         }
     }
 

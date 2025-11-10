@@ -17,9 +17,4 @@ public class Hache extends Arme {
         this.monde = monde;
     }
 
-    @Override
-    public void attaquer(int tileX, int tileY) {
-
-    }
-
 }

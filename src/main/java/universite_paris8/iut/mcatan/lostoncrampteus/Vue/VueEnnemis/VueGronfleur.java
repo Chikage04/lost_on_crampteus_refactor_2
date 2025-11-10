@@ -23,5 +23,13 @@ public class VueGronfleur {
         gamePane.getChildren().add(gronfleurVue);
         gronfleurVue.xProperty().bind(gronfleur.getPosXProperty());
         gronfleurVue.yProperty().bind(gronfleur.getPosYProperty());
+
+        // Écouter les changements de PV
+        gronfleur.getPvProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.doubleValue() <= 0) {
+                gamePane.getChildren().remove(gronfleurVue);
+                System.out.println("Gronfleur mort");
+            }
+        });
     }
 }

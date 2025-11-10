@@ -3,8 +3,7 @@ package universite_paris8.iut.mcatan.lostoncrampteus.Vue;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.ItemAuSol;
-
-import java.util.Objects;
+import universite_paris8.iut.mcatan.lostoncrampteus.Utils.ResourceManager;
 
 public class VueItem {
 
@@ -14,7 +13,11 @@ public class VueItem {
     public VueItem(ItemAuSol itemAuSol) {
         this.itemAuSol = itemAuSol;
         this.imageView = new ImageView();
-        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Items/Sol/" + itemAuSol.getItem().getNom() + "-sol.png")));
+
+        // Utiliser le ResourceManager pour charger et mettre en cache l'image
+        ResourceManager rm = ResourceManager.getInstance();
+        String imagePath = "Items/Sol/" + itemAuSol.getItem().getNom() + "-sol.png";
+        Image image = rm.getImage(imagePath);
         imageView.setImage(image);
 
         imageView.setFitWidth(itemAuSol.getWidth());

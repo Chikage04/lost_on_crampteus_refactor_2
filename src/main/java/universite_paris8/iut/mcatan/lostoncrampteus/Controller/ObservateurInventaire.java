@@ -1,15 +1,14 @@
-
 package universite_paris8.iut.mcatan.lostoncrampteus.Controller;
 
 import javafx.collections.ListChangeListener;
-import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.TilePane;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Bloc.Bloc;
 import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Item.Item;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Services.PlayerService;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Services.InventoryService;
 import universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueUI.VueCraft;
 import universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueUI.VueInventaire;
 
@@ -19,18 +18,25 @@ import java.util.Objects;
 
 public class ObservateurInventaire implements ListChangeListener<Item> {
 
-    private TilePane tilePane;
-    private VueInventaire vueInventaire;
-    private VueCraft vueCraft;
-    private Monde monde;
+    private final TilePane tilePane;
+    private final VueInventaire vueInventaire;
+    private final VueCraft vueCraft;
+    private final PlayerService playerService;
+    private final InventoryService inventoryService;
+
     public Map<Item, ImageView> itemVue;
 
-    public ObservateurInventaire(TilePane tilePane, VueInventaire vueInventaire, VueCraft vueCraft,Monde monde) {
+    public ObservateurInventaire(TilePane tilePane,
+                                 VueInventaire vueInventaire,
+                                 VueCraft vueCraft,
+                                 PlayerService playerService,
+                                 InventoryService inventoryService) {
         this.tilePane = tilePane;
-        this.monde = monde;
         this.itemVue = new HashMap<>();
         this.vueInventaire = vueInventaire;
         this.vueCraft = vueCraft;
+        this.playerService = playerService;
+        this.inventoryService = inventoryService;
     }
 
     @Override
@@ -41,65 +47,62 @@ public class ObservateurInventaire implements ListChangeListener<Item> {
             }
 
             if (change.wasAdded()) {
-                for (Item item : change.getAddedSubList()) {
-                    ImageView itemView = creeItemView(item);
-                    itemVue.put(item, itemView);
-                    tilePane.getChildren().add(itemView);
-
-                    selectionItemSouris(itemView, item);
-                }
+                handleItemsAdded(change.getAddedSubList());
             }
 
             if (change.wasRemoved()) {
-                for (Item item : change.getRemoved()) {
-                    ImageView vueAsuprimer = itemVue.remove(item);
-                    if (vueAsuprimer != null) {
-                        tilePane.getChildren().remove(vueAsuprimer);
-                    }
-                }
+                handleItemsRemoved(change.getRemoved());
             }
         }
     }
 
-    public void selectionItemSouris(ImageView itemView, Item item){
-        itemView.setOnMouseClicked(event -> {
-            if (event.getButton() == MouseButton.PRIMARY) {
-                selectionnerItem(item);
-            } else if (event.getButton() == MouseButton.SECONDARY) {
-                jeterItemSelectionne();
+    private void handleItemsAdded(java.util.List<? extends Item> items) {
+        for (Item item : items) {
+            ImageView itemView = creerImageView(item);
+            itemVue.put(item, itemView);
+            tilePane.getChildren().add(itemView);
+            setupMouseHandlers(itemView, item);
+        }
+    }
+
+    private void handleItemsRemoved(java.util.List<? extends Item> items) {
+        for (Item item : items) {
+            ImageView vueASuprimer = itemVue.remove(item);
+            if (vueASuprimer != null) {
+                tilePane.getChildren().remove(vueASuprimer);
+            }
+        }
+    }
+
+    private void setupMouseHandlers(ImageView itemView, Item item) {
+        itemView.setOnMouseClicked(new javafx.event.EventHandler<javafx.scene.input.MouseEvent>() {
+            @Override
+            public void handle(javafx.scene.input.MouseEvent event) {
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    inventoryService.selectItem(item);
+                    vueInventaire.setItemSelectionneVue(item);
+                    vueInventaire.mettreEnEvidenceSelection();
+                } else if (event.getButton() == MouseButton.SECONDARY) {
+                    if (inventoryService.dropItem(item)) {
+                        vueInventaire.setItemSelectionneVue(null);
+                        vueInventaire.mettreEnEvidenceSelection();
+                    }
+                }
             }
         });
     }
 
-    public void selectionnerItem(Item item) {
-        vueInventaire.setItemSelectionneVue(item);
-        monde.getJoueur().setItemEquipee(item);
-        vueInventaire.mettreEnEvidenceSelection();
-    }
-
-    public void jeterItemSelectionne() {
-        if (vueInventaire.getItemSelectionneVue() != null) {
-            monde.ajouterItemAuSol(vueInventaire.getItemSelectionneVue(), monde.getJoueur().getPosX() + 32, monde.getJoueur().getPosY());
-            monde.getJoueur().getInventaire().enleverItem(vueInventaire.getItemSelectionneVue());
-
-            if (vueInventaire.getItemSelectionneVue() == monde.getJoueur().getItemEquipee()) {
-                monde.getJoueur().setItemEquipee(null);
-            }
-            vueInventaire.setItemSelectionneVue(null);
-            vueInventaire.mettreEnEvidenceSelection(); // pour enlever la mise en évidence
-        }
-    }
-
-    @FXML
-    public ImageView creeItemView(Item item) {
+    private ImageView creerImageView(Item item) {
         ImageView itemVue = new ImageView();
-        System.out.println(item.getNom()); // pour debug et voir le trc dans l'inventaire dans la console
-        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/universite_paris8/iut/mcatan/lostoncrampteus/Images/Items/Inventaire/" + item.getNom() + "-inventaire.png")));
+        String imagePath = "/universite_paris8/iut/mcatan/lostoncrampteus/Images/Items/Inventaire/"
+                + item.getNom() + "-inventaire.png";
+        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
         itemVue.setImage(image);
-        if (item instanceof Bloc){
+
+        if (item instanceof Bloc) {
             itemVue.setFitHeight(22);
             itemVue.setFitWidth(22);
-        }else{
+        } else {
             itemVue.setFitHeight(32);
             itemVue.setFitWidth(32);
         }
@@ -107,3 +110,4 @@ public class ObservateurInventaire implements ListChangeListener<Item> {
         return itemVue;
     }
 }
+

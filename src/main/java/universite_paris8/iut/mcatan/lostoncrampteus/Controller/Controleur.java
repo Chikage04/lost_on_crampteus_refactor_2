@@ -1,160 +1,164 @@
-
 package universite_paris8.iut.mcatan.lostoncrampteus.Controller;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.SplitMenuButton;
-import javafx.scene.layout.Pane;
-import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
-import universite_paris8.iut.mcatan.lostoncrampteus.Vue.*;
-import universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueEnnemis.VueGronfleur;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Monde;
+import universite_paris8.iut.mcatan.lostoncrampteus.Modele.Services.*;
+import universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueTerrain;
 import universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueUI.VueCraft;
-import universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueUI.VueInventaire;
-import universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueUI.VueStackItem;
-import universite_paris8.iut.mcatan.lostoncrampteus.Vue.VueUI.VueVie;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 
+/**
+ * Simplified main controller
+ * Now only coordinates between services and views
+ */
 public class Controleur implements Initializable {
 
-    @FXML
-    SplitMenuButton craft;
+    private static final boolean DEBUG_MODE = true;
 
-    @FXML
-    TilePane tilePane;
+    @FXML private SplitMenuButton craft;
+    @FXML private TilePane tilePane;
+    @FXML private TilePane inventaire;
+    @FXML private Label nbStackItem;
+    @FXML private ProgressBar vie;
+    @FXML private Rectangle playerVue;
+    @FXML private Pane gamePane;
 
-    @FXML
-    TilePane inventaire;
-
-    @FXML
-    Label nbStackItem;
-
-    @FXML
-    ProgressBar vie;
-
-    @FXML
-    private Rectangle playerVue;
-
+    // Model
     private Monde monde;
 
-    private VueJoueur vueJoueur;
+    // Services (only 4 now!)
+    private PlayerService playerService;
+    private InventoryService inventoryService;
+    private GameService gameService;
 
-    private VueTerrain vueTerrain;
-
-    private VueInventaire vueInventaire;
-
-    private VueStackItem vueStackItem;
-
-    private VueItemAuSol vueItemAuSol;
-
-    private VueVie vueVie;
-
-    private VueCraft vueCraft;
-
-    //temp
-    private VueGronfleur vueGronfleur;
-
-    private ArrayList<ImageView> tuilesSolides = new ArrayList<>();
+    // View & Controller helpers
+    private ViewInitializer viewInitializer;
+    private AnimationManager animationManager;
+    private HealthBarManager healthBarManager;
+    private DebugManager debugManager;
+    private SourisHandler sourisHandler;
 
     private HashSet<KeyCode> activeKeys = new HashSet<>();
 
-    private Timeline animationTimeline;
-
-    @FXML
-    private Pane gamePane;
-
-    private SourisHandler sourisHandler;
-
-    private ObservateurInventaire observateur;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        initializeModel();
+        initializeServices();
+        initializeManagers();
+        initializeViews();
+        initializeInputHandlers();
+        startAnimation();
+    }
+
+    private void initializeModel() {
         monde = new Monde();
-
-        vueItemAuSol = new VueItemAuSol(gamePane, monde); // faire attention a l'ordre
-        vueJoueur = new VueJoueur(monde, playerVue);
-        vueTerrain = new VueTerrain(tilePane, monde.getTerrain(), tuilesSolides);
-        vueStackItem = new VueStackItem(nbStackItem,monde);
-        vueTerrain.chargeTiles();
-        vueCraft = new VueCraft(craft, monde);
-
-        vueVie = new VueVie(monde, vie);
-        vueInventaire = new VueInventaire(inventaire, monde, this);
-        vueGronfleur = new VueGronfleur(monde, gamePane);
-
-        for (int i = 0; i <= 2; i++) {
-            vueGronfleur.ajouterGronfleur();
-            monde.getPnjs().get(i).setPosX((i*64)+896);
-        }
-
-        setupAnimation();
-        sourisHandler = new SourisHandler(gamePane, monde, vueTerrain);
-
-
     }
 
-    private void setupAnimation() {
-        animationTimeline = new Timeline(
-                new KeyFrame(Duration.millis(16), e -> update())
+    private void initializeServices() {
+        playerService = new PlayerService(monde);
+        inventoryService = new InventoryService(monde);
+        gameService = new GameService(monde, inventoryService);
+    }
+
+    private void initializeManagers() {
+        healthBarManager = new HealthBarManager(vie, monde.getJoueur());
+        debugManager = new DebugManager(monde.getJoueur(), DEBUG_MODE);
+    }
+
+    private void initializeViews() {
+        viewInitializer = new ViewInitializer(
+                monde, gamePane, tilePane, inventaire,
+                nbStackItem, vie, craft, playerVue,
+                playerService, inventoryService
         );
-        animationTimeline.setCycleCount(Timeline.INDEFINITE);
-        animationTimeline.play();
+        viewInitializer.initializeAllViews(this);
     }
 
-    private void update() {
-        monde.updateMonde(activeKeys);
-        vueStackItem.update();
-        vueJoueur.updateAnimation(activeKeys);
+    private void initializeInputHandlers() {
+        sourisHandler = new SourisHandler(
+                gamePane, monde, viewInitializer.getVueTerrain(), playerService
+        );
+    }
 
-        if (activeKeys.contains(KeyCode.H)){
-            monde.getJoueur().perdreVie(0.01);
+    private void startAnimation() {
+        animationManager = new AnimationManager(
+                monde,
+                viewInitializer.getVueStackItem(),
+                viewInitializer.getVueJoueur(),
+                healthBarManager,
+                debugManager,
+                playerService,
+                inventoryService,
+                activeKeys
+        );
+        animationManager.start();
+    }
+
+    // ==================== INPUT PROCESSING ====================
+
+    public void processInput() {
+        handleHorizontalMovement();
+        handleJump();
+    }
+
+    private void handleHorizontalMovement() {
+        boolean movingLeft = activeKeys.contains(KeyCode.Q);
+        boolean movingRight = activeKeys.contains(KeyCode.D);
+
+        if (movingLeft == movingRight) {
+            playerService.stopMovement();
+            return;
         }
-        if (activeKeys.contains(KeyCode.J)){
-            if (monde.getJoueur().getPvProperty().getValue() < 1) {
-                monde.getJoueur().ajouterVie(0.01);
-            }
-        }
-        if (monde.getJoueur().getPvProperty().getValue() < 0.35){
-            vueVie.getVie().setStyle("-fx-border-color: BLACK; -fx-border-radius: 5; -fx-background-insets: 0; -fx-accent: RED;");
-        }
-        else{
-            vueVie.getVie().setStyle("-fx-border-color: BLACK; -fx-border-radius: 5; -fx-background-insets: 0; -fx-accent: LIMEGREEN;");
-        }
-        if (monde.getJoueur().getPvProperty().getValue() <= 0){
-            vueVie.getVie().setStyle("-fx-border-color: BLACK; -fx-border-radius: 5; -fx-background-insets: 0; -fx-accent: TRANSPARENT;");
+
+        if (movingRight) {
+            playerService.moveRight();
+        } else {
+            playerService.moveLeft();
         }
     }
+
+    private void handleJump() {
+        if (activeKeys.contains(KeyCode.SPACE)) {
+            playerService.jump();
+        }
+    }
+
+    // ==================== GETTERS ====================
 
     public HashSet<KeyCode> getActiveKeys() {
         return activeKeys;
     }
 
     public VueTerrain getVueTerrain() {
-        return vueTerrain;
-    }
-
-    public Label getNbStackItem() {
-        return nbStackItem;
-    }
-
-    public Pane getGamePane() {
-        return gamePane;
+        return viewInitializer.getVueTerrain();
     }
 
     public Monde getMonde() {
         return monde;
+    }
+
+    public PlayerService getPlayerService() {
+        return playerService;
+    }
+
+    public InventoryService getInventoryService() {
+        return inventoryService;
+    }
+
+    public Pane getGamePane() {
+        return gamePane;
     }
 
     public TilePane getInventaire() {
@@ -170,7 +174,10 @@ public class Controleur implements Initializable {
     }
 
     public VueCraft getVueCraft() {
-        return vueCraft;
+        return viewInitializer.getVueCraft();
     }
 
+    public Label getNbStackItem() {
+        return nbStackItem;
+    }
 }
