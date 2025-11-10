@@ -27,7 +27,7 @@ public class Joueur extends Acteur {
     private Item itemEquipe;
     private Armure armureEquipee;
     private Craft systemeDeCraft;
-    private ArrayList<Bloc> blocEnCoursCassage;
+    private Map<String, Bloc> blocEnCoursCassage;
     private Map<String, Recette> recetteDisponible;
 
     private Joueur() {

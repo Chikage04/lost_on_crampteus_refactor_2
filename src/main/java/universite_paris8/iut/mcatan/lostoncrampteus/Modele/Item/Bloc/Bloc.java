@@ -34,7 +34,7 @@ public abstract class Bloc extends ItemAvecDurabilite {
 
     @Override
     public void utiliser(int tileX, int tileY){
-        Joueur.getInstance().placerTile(Terrain.getInstance(), tileX, tileY, this.getTileId());
+        Joueur.getInstance().placerTile(tileX, tileY, this.getTileId());
         }
     }
 

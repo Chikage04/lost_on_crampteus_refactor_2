@@ -34,7 +34,7 @@ public class AlgoRechercheTest {
         gronfleur.setPosX(96);
 
         for (int i = 0; i < 200; i++) {
-            joueur.updatePosition(monde.getTerrain(), new HashSet<>());
+            joueur.updatePosition(new HashSet<>());
             gronfleur.seDeplacer();
         }
 
@@ -52,7 +52,7 @@ public class AlgoRechercheTest {
         gronfleur.setPosX(301);
 
         for (int i = 0; i < 200; i++) {
-            joueur.updatePosition(monde.getTerrain(), new HashSet<>());
+            joueur.updatePosition(new HashSet<>());
             gronfleur.seDeplacer();
         }
 
@@ -76,7 +76,7 @@ public class AlgoRechercheTest {
         gronfleurD.setPosX(150);
 
         for (int i = 0; i < 200; i++) {
-            joueur.updatePosition(monde.getTerrain(), new HashSet<>());
+            joueur.updatePosition(new HashSet<>());
             gronfleurG.seDeplacer();
             gronfleurD.seDeplacer();
         }

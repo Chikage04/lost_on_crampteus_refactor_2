@@ -27,25 +27,25 @@ public class HammerStrategy implements AttackStrategy {
 
         ArrayList<int[]> affected = new ArrayList<>();
 
-        joueur.casserTile(terrain, tileX, tileY);
+        joueur.casserTile(tileX, tileY);
         affected.add(new int[]{tileX, tileY});
 
         if (Math.abs(dx) > Math.abs(dy)) {
             if (tileY - 1 >= 0) {
-                joueur.casserTile(terrain, tileX, tileY - 1);
+                joueur.casserTile(tileX, tileY - 1);
                 affected.add(new int[]{tileX, tileY - 1});
             }
             if (tileY + 1 < terrain.getMap().length) {
-                joueur.casserTile(terrain, tileX, tileY + 1);
+                joueur.casserTile(tileX, tileY + 1);
                 affected.add(new int[]{tileX, tileY + 1});
             }
         } else {
             if (tileX - 1 >= 0) {
-                joueur.casserTile(terrain, tileX - 1, tileY);
+                joueur.casserTile(tileX - 1, tileY);
                 affected.add(new int[]{tileX - 1, tileY});
             }
             if (tileX + 1 < terrain.getMap()[0].length) {
-                joueur.casserTile(terrain, tileX + 1, tileY);
+                joueur.casserTile(tileX + 1, tileY);
                 affected.add(new int[]{tileX + 1, tileY});
             }
         }
